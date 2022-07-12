@@ -1,22 +1,33 @@
-import express from "express";
-import config from "config";
-
-const port = config.get<number>("port");
+import express, { urlencoded, json } from "express";
+import connection from "./db/config";
+import travelRoutes from "./routes/travels";
 
 const app = express();
 
-app.use(express.json());
+app.use(json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+app.use(urlencoded({ extended: true }));
+
+app.use("/travels", travelRoutes);
+
+app.use(
+  (
+    err: Error,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    res.status(500).json({ message: err.message });
+  }
+);
+
+connection.sync().then(() => {
+  try {
+    connection.authenticate();
+    console.log("Connection has been established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
 });
 
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
-});
-
-app.post("/api/data", (req, res) => {
-  console.log(req.body);
-
-  return res.sendStatus(200);
-});
+app.listen(3000);
