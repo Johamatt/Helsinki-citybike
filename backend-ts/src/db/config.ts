@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize-typescript";
+import { Stations } from "../models/stations";
 import { Travels } from "../models/travel";
 
 const connection = new Sequelize({
@@ -8,7 +9,7 @@ const connection = new Sequelize({
   password: "root",
   database: "helsinki-bike",
   logging: false,
-  models: [Travels],
+  models: [Travels, Stations],
 });
 
 export default connection;

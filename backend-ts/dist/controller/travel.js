@@ -14,7 +14,6 @@ const travel_1 = require("../models/travel");
 const getAllTravels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
-    // Array<Travels> = any
     const allTravels = yield travel_1.Travels.findAndCountAll({
         limit: size,
         offset: (page * size),
