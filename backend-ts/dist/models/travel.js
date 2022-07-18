@@ -15,49 +15,49 @@ __decorate([
         type: sequelize_typescript_1.DataType.DATE,
         allowNull: false,
     })
-], Travels.prototype, "Departure_time", void 0);
+], Travels.prototype, "departureTime", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.DATE,
         allowNull: false,
     })
-], Travels.prototype, "Return_time", void 0);
+], Travels.prototype, "returnTime", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.NUMBER,
         allowNull: false,
     })
-], Travels.prototype, "Departure_station_id", void 0);
+], Travels.prototype, "departureStationId", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     })
-], Travels.prototype, "Departure_station_name", void 0);
+], Travels.prototype, "departureStationName", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.NUMBER,
         allowNull: false,
     })
-], Travels.prototype, "Return_station_id", void 0);
+], Travels.prototype, "returnStationId", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     })
-], Travels.prototype, "Return_station_name", void 0);
+], Travels.prototype, "returnStationName", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.NUMBER,
         allowNull: false,
     })
-], Travels.prototype, "Distance_meters", void 0);
+], Travels.prototype, "distanceInMeters", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.NUMBER,
         allowNull: false,
     })
-], Travels.prototype, "duration_seconds", void 0);
+], Travels.prototype, "durationInSeconds", void 0);
 Travels = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: false,

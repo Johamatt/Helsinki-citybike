@@ -9,47 +9,47 @@ export class Travels extends Model {
     type: DataType.DATE,
     allowNull: false,
   })
-  Departure_time!: Date;
+  departureTime!: Date;
 
   @Column({
     type: DataType.DATE,
     allowNull: false,
   })
-  Return_time!: Date;
+  returnTime!: Date;
 
   @Column({
     type: DataType.NUMBER,
     allowNull: false,
   })
-  Departure_station_id!: number;
+  departureStationId!: number;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Departure_station_name!: string;
+  departureStationName!: string;
 
   @Column({
     type: DataType.NUMBER,
     allowNull: false,
   })
-  Return_station_id!: number;
+  returnStationId!: number;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Return_station_name!: string;
+  returnStationName!: string;
 
   @Column({
     type: DataType.NUMBER,
     allowNull: false,
   })
-  Distance_meters!: number;
+  distanceInMeters!: number;
 
   @Column({
     type: DataType.NUMBER,
     allowNull: false,
   })
-  duration_seconds!: number;
+  durationInSeconds!: number;
 }
