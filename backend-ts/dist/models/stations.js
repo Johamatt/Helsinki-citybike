@@ -17,6 +17,14 @@ __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.NUMBER,
         allowNull: false,
+        primaryKey: true,
+    }),
+    __metadata("design:type", Number)
+], Stations.prototype, "FID", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.NUMBER,
+        allowNull: false,
     }),
     __metadata("design:type", Number)
 ], Stations.prototype, "ID", void 0);

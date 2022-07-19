@@ -72,7 +72,6 @@ const uploadTravelCSV = (req, res, next) => {
         ],
     });
     let travels = [];
-    let rowcount = 0;
     const read = fs
         .createReadStream(path.join(__dirname, "../utils/uploads", req.file.filename))
         .pipe(parser)
@@ -81,11 +80,8 @@ const uploadTravelCSV = (req, res, next) => {
         throw error.message;
     })
         .on("data", (row) => __awaiter(void 0, void 0, void 0, function* () {
-        rowcount++;
-        console.log(travels.length);
         console.log(row);
-        if (travels.length > 50000) {
-            rowcount = 0;
+        if (travels.length >= 50000) {
             try {
                 read.pause();
                 yield travel_1.Travels.bulkCreate(travels);
@@ -105,6 +101,7 @@ const uploadTravelCSV = (req, res, next) => {
         catch (err) {
             console.log(err);
         }
+        console.log("k");
         return res.json(res.status);
     }));
 };

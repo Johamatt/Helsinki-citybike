@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
 import { Stations } from "../models/stations";
-// import { parse } from "csv-parse/.";
-// import * as fs from "fs";
-// import * as path from "path";
+import { parse } from "csv-parse";
+import * as fs from "fs";
+import * as path from "path";
 
 export const getAllStations: RequestHandler = async (req, res, next) => {
   const page: number = parseInt(req.query.page as string);
@@ -21,44 +21,49 @@ export const getStationById: RequestHandler = async (req, res, next) => {
   return res.status(200).json({ data: station });
 };
 
-// export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
-//   const parser = parse({
-//     delimiter: ",",
-//     cast_date: true,
-//     cast: true,
-//     encoding: "utf8",
-//     from_line: 2,
-//     columns: [
-//       "ID",
-//       "Nimi",
-//       "Osoite",
-//       "Kaupunki",
-//       "Operaattor",
-//       "Kapasiteet",
-//       "x",
-//       "y",
-//     ],
-//   });
+export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
+  const parser = parse({
+    delimiter: ",",
+    cast_date: true,
+    cast: true,
+    encoding: "utf8",
+    from_line: 2,
+    columns: [
+      "FID",
+      "ID",
+      "Nimi",
+      "Namn",
+      "Name",
+      "Osoite",
+      "Adress",
+      "Kaupunki",
+      "Stad",
+      "Operaattor",
+      "Kapasiteet",
+      "x",
+      "y",
+    ],
+  });
 
-//   const stations: any = [];
-//   fs.createReadStream(
-//     path.join(__dirname, "../utils/uploads", req.file.filename)
-//   )
-//     .pipe(parser)
-//     .on("error", (error) => {
-//       console.error(error);
-//       throw error.message;
-//     })
-//     .on("data", (row) => {
-//       console.log(row);
-//       stations.push(row);
-//     })
-//     .on("end", async () => {
-//       try {
-//         await Stations.bulkCreate(stations);
-//       } catch (err) {
-//         console.log(err);
-//       }
-//       return res.json(res.status);
-//     });
-// };
+  const stations: any = [];
+  fs.createReadStream(
+    path.join(__dirname, "../utils/uploads", req.file.filename)
+  )
+    .pipe(parser)
+    .on("error", (error) => {
+      console.error(error);
+      throw error.message;
+    })
+    .on("data", (row) => {
+      console.log(row);
+      stations.push(row);
+    })
+    .on("end", async () => {
+      try {
+        await Stations.bulkCreate(stations);
+      } catch (err) {
+        console.log(err);
+      }
+      return res.json(res.status);
+    });
+};

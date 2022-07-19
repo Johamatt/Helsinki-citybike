@@ -5,12 +5,12 @@ import { Table, Model, Column, DataType } from "sequelize-typescript";
   tableName: "stations",
 })
 export class Stations extends Model {
-  // @Column({
-  //   type: DataType.NUMBER,
-  //   allowNull: false,
-  //   autoIncrement: true,
-  // })
-  // FID!: Number;
+  @Column({
+    type: DataType.NUMBER,
+    allowNull: false,
+    primaryKey: true,
+  })
+  FID!: Number;
 
   @Column({
     type: DataType.NUMBER,
