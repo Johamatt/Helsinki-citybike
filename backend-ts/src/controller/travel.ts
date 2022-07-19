@@ -1,8 +1,6 @@
 import { NextFunction, RequestHandler } from "express";
 import * as fs from "fs";
 import * as path from "path";
-
-import assert from "assert";
 import { parse } from "csv-parse";
 
 import { Travels } from "../models/travel";
@@ -25,7 +23,7 @@ export const getTravelById: RequestHandler = async (req, res, next) => {
   return res.status(200).json({ data: travel });
 };
 
-export const uploadTravelCSV: RequestHandler = async (req: any, res, next) => {
+export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
   const parser = parse({
     delimiter: ",",
     cast_date: true,
@@ -44,17 +42,31 @@ export const uploadTravelCSV: RequestHandler = async (req: any, res, next) => {
     ],
   });
 
-  const travels: any = [];
-  fs.createReadStream(
-    path.join(__dirname, "../utils/uploads", req.file.filename)
-  )
+  let travels: any = [];
+
+  const read = fs
+    .createReadStream(
+      path.join(__dirname, "../utils/uploads", req.file.filename)
+    )
     .pipe(parser)
     .on("error", (error) => {
       console.error(error);
       throw error.message;
     })
-    .on("data", (row) => {
+    .on("data", async (row) => {
       console.log(row);
+      if (travels.length >= 50000) {
+        try {
+          read.pause();
+          await Travels.bulkCreate(travels);
+          travels = [];
+
+          read.resume();
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
       travels.push(row);
     })
     .on("end", async () => {
@@ -63,6 +75,7 @@ export const uploadTravelCSV: RequestHandler = async (req: any, res, next) => {
       } catch (err) {
         console.log(err);
       }
+      console.log("k");
       return res.json(res.status);
     });
 };

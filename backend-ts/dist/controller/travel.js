@@ -53,7 +53,7 @@ const getTravelById = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     return res.status(200).json({ data: travel });
 });
 exports.getTravelById = getTravelById;
-const uploadTravelCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const uploadTravelCSV = (req, res, next) => {
     const parser = (0, csv_parse_1.parse)({
         delimiter: ",",
         cast_date: true,
@@ -71,17 +71,33 @@ const uploadTravelCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             "durationInSeconds",
         ],
     });
-    const travels = [];
-    fs.createReadStream(path.join(__dirname, "../utils/uploads", req.file.filename))
+    let travels = [];
+    let rowcount = 0;
+    const read = fs
+        .createReadStream(path.join(__dirname, "../utils/uploads", req.file.filename))
         .pipe(parser)
         .on("error", (error) => {
         console.error(error);
         throw error.message;
     })
-        .on("data", (row) => {
+        .on("data", (row) => __awaiter(void 0, void 0, void 0, function* () {
+        rowcount++;
+        console.log(travels.length);
         console.log(row);
+        if (travels.length > 50000) {
+            rowcount = 0;
+            try {
+                read.pause();
+                yield travel_1.Travels.bulkCreate(travels);
+                travels = [];
+                read.resume();
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
         travels.push(row);
-    })
+    }))
         .on("end", () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             yield travel_1.Travels.bulkCreate(travels);
@@ -91,5 +107,5 @@ const uploadTravelCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         }
         return res.json(res.status);
     }));
-});
+};
 exports.uploadTravelCSV = uploadTravelCSV;

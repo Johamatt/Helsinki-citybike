@@ -5,6 +5,13 @@ import { Table, Model, Column, DataType } from "sequelize-typescript";
   tableName: "travels",
 })
 export class Travels extends Model {
+  // @Column({
+  //   type: DataType.NUMBER,
+  //   autoIncrement: true,
+  //   primaryKey: true,
+  // })
+  // ID!: number;
+
   @Column({
     type: DataType.DATE,
     allowNull: false,

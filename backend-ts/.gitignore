@@ -1,2 +1,2 @@
-src/utils/uploads/
-dist/utils/uploads/
+src/utils/uploads/*
+dist/utils/uploads/*
