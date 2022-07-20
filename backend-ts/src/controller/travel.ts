@@ -1,9 +1,10 @@
-import { NextFunction, RequestHandler } from "express";
+import { RequestHandler } from "express";
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse";
-
 import { Travels } from "../models/travel";
+import moment from "moment";
+import { validTravelCsvRow } from "../utils/validation/validateCsvRow";
 
 export const getAllTravels: RequestHandler = async (req, res, next) => {
   const page: number = parseInt(req.query.page as string);
@@ -54,28 +55,31 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
       throw error.message;
     })
     .on("data", async (row) => {
-      console.log(row);
+      if (validTravelCsvRow(row)) {
+        travels.push(row);
+      } else {
+        //... todo push invalid rows into file
+      }
+
       if (travels.length >= 50000) {
         try {
           read.pause();
           await Travels.bulkCreate(travels);
           travels = [];
-
           read.resume();
         } catch (err) {
           console.log(err);
         }
       }
-
-      travels.push(row);
     })
+
     .on("end", async () => {
       try {
         await Travels.bulkCreate(travels);
       } catch (err) {
         console.log(err);
       }
-      console.log("k");
-      return res.json(res.status);
+
+      return res.json(res.statusCode);
     });
 };

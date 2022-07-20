@@ -14,9 +14,11 @@ const fileFilter = (req: any, file: any, cb: any) => {
   if (file.mimetype === "text/csv") {
     cb(null, true);
   } else {
-    cb(new Error());
+    cb(new Error("Invalid file extension: " + file.mimetype));
   }
 };
 
-export const upload = multer({ storage: storage, fileFilter: fileFilter });
-
+export const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+});

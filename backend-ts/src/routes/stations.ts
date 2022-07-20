@@ -9,7 +9,6 @@ import { upload } from "../utils/multer.config";
 const router = Router();
 router.get("/", getAllStations);
 router.get("/:id", getStationById);
-
 router.post("/upload", upload.single("file"), uploadStationCSV);
 
 export default router;

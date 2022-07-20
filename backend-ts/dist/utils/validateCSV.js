@@ -31,30 +31,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadTravelCSV = exports.getTravelById = exports.getAllTravels = void 0;
+exports.validateTravelCSV = void 0;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const moment_1 = __importDefault(require("moment"));
 const csv_parse_1 = require("csv-parse");
-const travel_1 = require("../models/travel");
-const validateCSV_1 = require("../utils/validation/validateCSV");
-const getAllTravels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const page = parseInt(req.query.page);
-    const size = parseInt(req.query.size);
-    const allTravels = yield travel_1.Travels.findAndCountAll({
-        limit: size,
-        offset: (page * size),
-    });
-    return res.status(200).json({ data: allTravels });
-});
-exports.getAllTravels = getAllTravels;
-const getTravelById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const travel = yield travel_1.Travels.findByPk(id);
-    return res.status(200).json({ data: travel });
-});
-exports.getTravelById = getTravelById;
-const uploadTravelCSV = (req, res, next) => {
+const assert_1 = __importDefault(require("assert"));
+const validateTravelCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const dateformat = (0, moment_1.default)().format();
     const parser = (0, csv_parse_1.parse)({
         delimiter: ",",
         cast_date: true,
@@ -72,41 +60,27 @@ const uploadTravelCSV = (req, res, next) => {
             "durationInSeconds",
         ],
     });
-    let travels = [];
+    const rowNumber = 1;
     const read = fs
-        .createReadStream(path.join(__dirname, "../utils/uploads", req.file.filename))
+        .createReadStream(path.join(__dirname, "/uploads", req.file.filename))
         .pipe(parser)
         .on("error", (error) => {
         console.error(error);
         throw error.message;
     })
-        .on("data", (row) => __awaiter(void 0, void 0, void 0, function* () {
-        if ((0, validateCSV_1.validTravelCsvRow)(row)) {
-            travels.push(row);
-        }
-        else {
-            //... todo push invalid rows into file
-        }
-        if (travels.length >= 50000) {
-            try {
-                read.pause();
-                yield travel_1.Travels.bulkCreate(travels);
-                travels = [];
-                read.resume();
-            }
-            catch (err) {
-                console.log(err);
-            }
-        }
-    }))
+        .on("data", (row) => {
+        (0, assert_1.default)((0, moment_1.default)(row.departureTime).isValid(), new Error("invalid departureTime - at row: " + rowNumber));
+        (0, assert_1.default)((0, moment_1.default)(row.returnTime).isValid(), new Error("invalid returnTime - at row: " + rowNumber));
+        (0, assert_1.default)(!isNaN(row.departureStationId), new Error("invalid departureStationId - at row: " + rowNumber));
+        (0, assert_1.default)(row.departureStationName !== undefined, new Error("invalid departureStationName - at row: " + rowNumber));
+        (0, assert_1.default)(!isNaN(row.returnStationId), new Error("invalid returnStationId - at row: " + rowNumber));
+        (0, assert_1.default)(row.returnStationName !== undefined, new Error("invalid returnStationName - at row: " + rowNumber));
+        (0, assert_1.default)(!isNaN(row.distanceInMeters), new Error("invalid distanceInMeters - at row: " + rowNumber));
+        (0, assert_1.default)(!isNaN(row.durationInSeconds), new Error("invalid durationInSeconds - at row: " + rowNumber));
+        row++;
+    })
         .on("end", () => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            yield travel_1.Travels.bulkCreate(travels);
-        }
-        catch (err) {
-            console.log(err);
-        }
         return res.json(res.statusCode);
     }));
-};
-exports.uploadTravelCSV = uploadTravelCSV;
+});
+exports.validateTravelCSV = validateTravelCSV;

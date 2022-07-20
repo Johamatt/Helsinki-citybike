@@ -49,7 +49,7 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
   fs.createReadStream(
     path.join(__dirname, "../utils/uploads", req.file.filename)
   )
-    .pipe(parser)
+  .pipe(parser)
     .on("error", (error) => {
       console.error(error);
       throw error.message;

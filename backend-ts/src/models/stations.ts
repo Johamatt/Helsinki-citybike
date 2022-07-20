@@ -34,7 +34,7 @@ export class Stations extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  Namee!: string;
+  Name!: string;
 
   @Column({
     type: DataType.STRING,

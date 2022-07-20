@@ -48,7 +48,7 @@ __decorate([
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Stations.prototype, "Namee", void 0);
+], Stations.prototype, "Name", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
