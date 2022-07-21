@@ -1,5 +1,7 @@
 
 
+dist/
+
 # exclude everything
 src/utils/uploads/*
 
