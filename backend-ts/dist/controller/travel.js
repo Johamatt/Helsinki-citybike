@@ -38,6 +38,7 @@ const path = __importStar(require("path"));
 const csv_parse_1 = require("csv-parse");
 const travel_1 = require("../models/travel");
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
+const importReport_1 = require("../utils/report/importReport");
 const getAllTravels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
@@ -56,6 +57,7 @@ const getTravelById = (req, res, next) => __awaiter(void 0, void 0, void 0, func
 exports.getTravelById = getTravelById;
 const uploadTravelCSV = (req, res, next) => {
     const parser = (0, csv_parse_1.parse)({
+        skip_records_with_error: true,
         delimiter: ",",
         cast_date: true,
         cast: true,
@@ -73,6 +75,7 @@ const uploadTravelCSV = (req, res, next) => {
         ],
     });
     let travels = [];
+    let failedImports = [];
     let rownumber = 1;
     const read = fs
         .createReadStream(path.join(__dirname, "../utils/uploads", req.file.filename))
@@ -81,6 +84,10 @@ const uploadTravelCSV = (req, res, next) => {
         console.error(error);
         throw error.message;
     })
+        .on("skip", (row) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(row.lines);
+        failedImports.push({ row: row.record, atRowNumber: row.lines });
+    }))
         .on("data", (row) => __awaiter(void 0, void 0, void 0, function* () {
         rownumber++;
         console.log(row);
@@ -88,7 +95,7 @@ const uploadTravelCSV = (req, res, next) => {
             travels.push(row);
         }
         else {
-            //... todo push invalid rows into file
+            failedImports.push({ row: row, atRowNumber: rownumber });
         }
         if (travels.length >= 50000) {
             try {
@@ -109,6 +116,12 @@ const uploadTravelCSV = (req, res, next) => {
         catch (err) {
             console.log(err);
         }
+        (0, importReport_1.importReport)({
+            dataModel: "travel",
+            failedImports: failedImports,
+            totalNumberOfRows: rownumber,
+        });
+        console.log(failedImports);
         return res.json(res.statusCode);
     }));
 };

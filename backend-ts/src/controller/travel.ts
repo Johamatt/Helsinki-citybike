@@ -5,6 +5,7 @@ import { parse } from "csv-parse";
 import { Travels } from "../models/travel";
 import moment from "moment";
 import { validTravelCsvRow } from "../utils/validation/validateCsvRow";
+import { importReport } from "../utils/report/importReport";
 
 export const getAllTravels: RequestHandler = async (req, res, next) => {
   const page: number = parseInt(req.query.page as string);
@@ -26,6 +27,7 @@ export const getTravelById: RequestHandler = async (req, res, next) => {
 
 export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
   const parser = parse({
+    skip_records_with_error: true,
     delimiter: ",",
     cast_date: true,
     cast: true,
@@ -44,6 +46,7 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
   });
 
   let travels: any = [];
+  let failedImports: any = [];
   let rownumber = 1;
 
   const read = fs
@@ -55,13 +58,17 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
       console.error(error);
       throw error.message;
     })
+    .on("skip", async (row) => {
+      console.log(row.lines);
+      failedImports.push({ row: row.record, atRowNumber: row.lines });
+    })
     .on("data", async (row) => {
       rownumber++;
       console.log(row);
       if (validTravelCsvRow(row)) {
         travels.push(row);
       } else {
-        //... todo push invalid rows into file
+        failedImports.push({ row: row, atRowNumber: rownumber });
       }
 
       if (travels.length >= 50000) {
@@ -82,6 +89,14 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
       } catch (err) {
         console.log(err);
       }
+
+      importReport({
+        dataModel: "travel",
+        failedImports: failedImports,
+        totalNumberOfRows: rownumber,
+      });
+
+      console.log(failedImports);
 
       return res.json(res.statusCode);
     });

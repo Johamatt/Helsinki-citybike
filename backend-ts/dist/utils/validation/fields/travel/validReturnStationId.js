@@ -6,10 +6,7 @@ const validReturnStationId = (value) => {
         return true;
     }
     else {
-        return {
-            boolean: false,
-            reason: value + " is a negative integer or not a integer",
-        };
+        return false;
     }
 };
 exports.validReturnStationId = validReturnStationId;

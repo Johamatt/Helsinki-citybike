@@ -1,6 +1,6 @@
 ﻿Departure,Return,Departure station id,Departure station name,Return station id,Return station name,Covered distance (m),Duration (sec.)
-2021-05-3111T23:57:25,2021-06-01T00:05:46,094,Laajalahden aukio,100,Teljäntie,2043,500
-2021-05-31T23:56:59,2021-06-01T00:07:14,082,Töölöntulli,113,Pasilan asema,1870,611
+2,2021-05-3111T23:57:25,2021-06-01T00:05:46,094,Laajalahden aukio,100,Teljäntie,2043,500
+2021-05-31T23:56:59,2021-06-01T00:07:14,082,Töölöntulli,113a,Pasilan asema,1870d,611r1
 2021-05-31T23:56:44,2021-06-01T00:03:26,123,Näkinsilta,121,Vilhonvuorenkatu,1025,399
 2021-05-31T23:56:23,2021-06-01T00:29:58,004,Viiskulma,065,Hernesaarenranta,4318,2009
 2021-05-31T23:56:11,2021-06-01T00:02:02,004,Viiskulma,065,Hernesaarenranta,1400,350
@@ -13,7 +13,7 @@
 2021-05-31T23:50:00,2021-05-31T23:55:48,069,Kalevankatu,062,Välimerenkatu,1131,345
 2021-05-31T23:49:59,2021-05-31T23:59:49,147,Käpylän asema,232,Oulunkylän asema,1695,589
 2021-05-31T23:49:59,2021-05-31T23:55:38,069,Kalevankatu,062,Välimerenkatu,1125,336
-2021-05-31T23:49:36,2021-06-01T00:40:20,547,Jämeräntaival,547,Jämeräntaival,1227,3040
+123,2021-05-31T23:49:36,2021-06-01T00:40:20,547,Jämeräntaival,547,Jämeräntaival,1227,3040
 2021-05-31T23:49:18,2021-06-01T00:05:09,201,Länsisatamankuja,041,Ympyrätalo,4245,948
 2021-05-31T23:48:53,2021-06-01T00:03:49,030,Itämerentori,050,Melkonkuja,2656,892
 2021-05-31T23:48:44,2021-05-31T23:56:06,235,Katariina Saksilaisen katu,239,Viikin tiedepuisto,2107,437

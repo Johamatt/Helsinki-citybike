@@ -7,8 +7,6 @@ exports.validDepartureTime = void 0;
 const moment_1 = __importDefault(require("moment"));
 const validDepartureTime = (DepartureTime) => {
     if ((0, moment_1.default)(DepartureTime, moment_1.default.defaultFormat, true).isValid()) {
-        console.log((0, moment_1.default)(DepartureTime).isValid());
-        console.log((0, moment_1.default)(DepartureTime));
         return true;
     }
     else {
