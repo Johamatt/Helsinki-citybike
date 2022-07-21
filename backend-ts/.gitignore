@@ -1,2 +1,8 @@
+
+
+# exclude everything
 src/utils/uploads/*
-dist/utils/uploads/*
+
+# exception to the rule
+!src/utils/uploads/.gitkeep 
+

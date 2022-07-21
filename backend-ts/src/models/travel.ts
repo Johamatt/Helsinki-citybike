@@ -18,7 +18,7 @@ export class Travels extends Model {
   returnTime!: Date;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   departureStationId!: number;
@@ -30,7 +30,7 @@ export class Travels extends Model {
   departureStationName!: string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   returnStationId!: number;
@@ -42,13 +42,13 @@ export class Travels extends Model {
   returnStationName!: string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   distanceInMeters!: number;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   durationInSeconds!: number;

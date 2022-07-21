@@ -55,6 +55,7 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
       throw error.message;
     })
     .on("data", async (row) => {
+      console.log(row)
       if (validTravelCsvRow(row)) {
         travels.push(row);
       } else {

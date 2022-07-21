@@ -6,14 +6,14 @@ import { Table, Model, Column, DataType } from "sequelize-typescript";
 })
 export class Stations extends Model {
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
     primaryKey: true,
   })
   FID!: Number;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   ID!: Number;
@@ -67,7 +67,7 @@ export class Stations extends Model {
   Operaattor!: string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   Kapasiteet!: number;

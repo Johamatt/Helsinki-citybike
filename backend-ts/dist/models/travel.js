@@ -29,7 +29,7 @@ __decorate([
 ], Travels.prototype, "returnTime", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
     }),
     __metadata("design:type", Number)
@@ -43,7 +43,7 @@ __decorate([
 ], Travels.prototype, "departureStationName", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
     }),
     __metadata("design:type", Number)
@@ -57,14 +57,14 @@ __decorate([
 ], Travels.prototype, "returnStationName", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
     }),
     __metadata("design:type", Number)
 ], Travels.prototype, "distanceInMeters", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
     }),
     __metadata("design:type", Number)

@@ -15,7 +15,6 @@ const storage = multer_1.default.diskStorage({
 });
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === "text/csv") {
-        console.log(file);
         cb(null, true);
     }
     else {

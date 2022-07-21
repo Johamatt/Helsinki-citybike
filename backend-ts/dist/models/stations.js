@@ -15,7 +15,7 @@ let Stations = class Stations extends sequelize_typescript_1.Model {
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
         primaryKey: true,
     }),
@@ -23,7 +23,7 @@ __decorate([
 ], Stations.prototype, "FID", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
     }),
     __metadata("design:type", Number)
@@ -86,7 +86,7 @@ __decorate([
 ], Stations.prototype, "Operaattor", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
     }),
     __metadata("design:type", Number)

@@ -37,7 +37,7 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const csv_parse_1 = require("csv-parse");
 const travel_1 = require("../models/travel");
-const validateCSV_1 = require("../utils/validation/validateCSV");
+const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const getAllTravels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
@@ -81,7 +81,8 @@ const uploadTravelCSV = (req, res, next) => {
         throw error.message;
     })
         .on("data", (row) => __awaiter(void 0, void 0, void 0, function* () {
-        if ((0, validateCSV_1.validTravelCsvRow)(row)) {
+        console.log(row);
+        if ((0, validateCsvRow_1.validTravelCsvRow)(row)) {
             travels.push(row);
         }
         else {
