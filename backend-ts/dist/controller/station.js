@@ -82,6 +82,7 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         throw error.message;
     })
         .on("data", (row) => {
+        delete row.FID;
         console.log(row);
         stations.push(row);
     })
@@ -92,6 +93,7 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         catch (err) {
             console.log(err);
         }
+        fs.close;
         return res.json(res.status);
     }));
 });

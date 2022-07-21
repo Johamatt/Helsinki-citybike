@@ -18,6 +18,7 @@ __decorate([
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
     }),
     __metadata("design:type", Number)
 ], Stations.prototype, "FID", void 0);

@@ -53,6 +53,7 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
       throw error.message;
     })
     .on("data", (row) => {
+      delete row.FID;
       console.log(row);
       stations.push(row);
     })
