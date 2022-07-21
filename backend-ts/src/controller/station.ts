@@ -24,8 +24,6 @@ export const getStationById: RequestHandler = async (req, res, next) => {
 export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
   const parser = parse({
     delimiter: ",",
-    cast_date: true,
-    cast: true,
     encoding: "utf8",
     from_line: 2,
     columns: [
@@ -49,7 +47,7 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
   fs.createReadStream(
     path.join(__dirname, "../utils/uploads", req.file.filename)
   )
-  .pipe(parser)
+    .pipe(parser)
     .on("error", (error) => {
       console.error(error);
       throw error.message;
@@ -64,6 +62,7 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
       } catch (err) {
         console.log(err);
       }
+      fs.close;
       return res.json(res.status);
     });
 };

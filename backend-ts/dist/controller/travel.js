@@ -122,6 +122,7 @@ const uploadTravelCSV = (req, res, next) => {
             totalNumberOfRows: rownumber,
         });
         console.log(failedImports);
+        fs.close;
         return res.json(res.statusCode);
     }));
 };

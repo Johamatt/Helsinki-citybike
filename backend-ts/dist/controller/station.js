@@ -56,8 +56,6 @@ exports.getStationById = getStationById;
 const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const parser = (0, csv_parse_1.parse)({
         delimiter: ",",
-        cast_date: true,
-        cast: true,
         encoding: "utf8",
         from_line: 2,
         columns: [

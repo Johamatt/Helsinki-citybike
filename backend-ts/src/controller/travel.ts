@@ -97,7 +97,7 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
       });
 
       console.log(failedImports);
-
+      fs.close;
       return res.json(res.statusCode);
     });
 };
