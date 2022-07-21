@@ -37,6 +37,7 @@ const stations_1 = require("../models/stations");
 const csv_parse_1 = require("csv-parse");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const getAllStations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
@@ -55,6 +56,7 @@ const getStationById = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 exports.getStationById = getStationById;
 const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const parser = (0, csv_parse_1.parse)({
+        skip_records_with_error: true,
         delimiter: ",",
         encoding: "utf8",
         from_line: 2,
@@ -75,16 +77,26 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         ],
     });
     const stations = [];
+    let failedImports = [];
+    let rownumber = 0;
     fs.createReadStream(path.join(__dirname, "../utils/uploads", req.file.filename))
         .pipe(parser)
         .on("error", (error) => {
         console.error(error);
         throw error.message;
     })
+        .on("skip", (row) => __awaiter(void 0, void 0, void 0, function* () {
+        failedImports.push({ row: row.record, atRowNumber: row.lines });
+    }))
         .on("data", (row) => {
+        rownumber++;
         delete row.FID;
-        console.log(row);
-        stations.push(row);
+        if ((0, validateCsvRow_1.validStationCsvRow)(row)) {
+            stations.push(row);
+        }
+        else {
+            failedImports.push({ row: Object.values(row), atRowNumber: rownumber });
+        }
     })
         .on("end", () => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -94,7 +106,12 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             console.log(err);
         }
         fs.close;
-        return res.json(res.status);
+        return res.json({
+            dataModel: "travel",
+            failedImports: failedImports,
+            totalNumberOfRows: rownumber,
+            filename: req.file.filename,
+        });
     }));
 });
 exports.uploadStationCSV = uploadStationCSV;

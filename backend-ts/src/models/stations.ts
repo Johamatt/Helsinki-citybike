@@ -74,13 +74,13 @@ export class Stations extends Model {
   Kapasiteet!: number;
 
   @Column({
-    type: DataType.DECIMAL,
+    type: DataType.FLOAT(12, 6),
     allowNull: false,
   })
   x!: number;
 
   @Column({
-    type: DataType.DECIMAL,
+    type: DataType.FLOAT(12, 6),
     allowNull: false,
   })
   y!: number;

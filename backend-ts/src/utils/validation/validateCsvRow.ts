@@ -1,3 +1,15 @@
+import { validAdress } from "./fields/station/validAdress";
+import { validId } from "./fields/station/validID";
+import { validKapasiteet } from "./fields/station/validKapasiteet";
+import { validKaupunki } from "./fields/station/validKaupunki";
+import { validName } from "./fields/station/validName";
+import { validNamn } from "./fields/station/validNamn";
+import { validNimi } from "./fields/station/validNimi";
+import { validOperaattor } from "./fields/station/validOperaattor";
+import { validOsoite } from "./fields/station/validOsoite";
+import { validstad } from "./fields/station/validStad";
+import { validX } from "./fields/station/validX";
+import { validY } from "./fields/station/validY";
 import { validDepartureStationId } from "./fields/travel/validDepartureStationId";
 import { validDepartureStationName } from "./fields/travel/validDepartureStationName";
 import { validDepartureTime } from "./fields/travel/validDepartureTime";
@@ -23,4 +35,23 @@ export const validTravelCsvRow = (row: any) => {
   return false;
 };
 
-export const validateStationCSV = (row: {}) => {};
+export const validStationCsvRow = (row: any) => {
+  if (
+    validAdress(row.adress) &&
+    validId(row.ID) &&
+    validKapasiteet(row.kapasiteet) &&
+    validKaupunki(row.kaupunki) &&
+    validName(row.name) &&
+    validNamn(row.namn) &&
+    validNimi(row.nimi) &&
+    validOperaattor(row.operaattor) &&
+    validOsoite(row.osoite) &&
+    validstad(row.stad) &&
+    validX(row.x) &&
+    validY(row.y)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};

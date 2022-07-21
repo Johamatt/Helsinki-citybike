@@ -1,7 +1,9 @@
 export const validReturnStationName = (ReturnStationName: any) => {
-  if (ReturnStationName.length < 200) {
-    return true;
-  } else {
-    return false;
+  if (typeof ReturnStationName === "string") {
+    if (ReturnStationName.length < 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 };

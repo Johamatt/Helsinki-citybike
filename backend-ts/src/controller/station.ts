@@ -3,6 +3,7 @@ import { Stations } from "../models/stations";
 import { parse } from "csv-parse";
 import * as fs from "fs";
 import * as path from "path";
+import { validStationCsvRow } from "../utils/validation/validateCsvRow";
 
 export const getAllStations: RequestHandler = async (req, res, next) => {
   const page: number = parseInt(req.query.page as string);
@@ -23,6 +24,7 @@ export const getStationById: RequestHandler = async (req, res, next) => {
 
 export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
   const parser = parse({
+    skip_records_with_error: true,
     delimiter: ",",
     encoding: "utf8",
     from_line: 2,
@@ -44,6 +46,9 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
   });
 
   const stations: any = [];
+  let failedImports: any = [];
+  let rownumber = 0;
+
   fs.createReadStream(
     path.join(__dirname, "../utils/uploads", req.file.filename)
   )
@@ -52,10 +57,18 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
       console.error(error);
       throw error.message;
     })
+    .on("skip", async (row) => {
+      failedImports.push({ row: row.record, atRowNumber: row.lines });
+    })
     .on("data", (row) => {
+      rownumber++;
       delete row.FID;
-      console.log(row);
-      stations.push(row);
+
+      if (validStationCsvRow(row)) {
+        stations.push(row);
+      } else {
+        failedImports.push({ row: Object.values(row), atRowNumber: rownumber });
+      }
     })
     .on("end", async () => {
       try {
@@ -64,6 +77,12 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
         console.log(err);
       }
       fs.close;
-      return res.json(res.status);
+
+      return res.json({
+        dataModel: "station",
+        failedImports: failedImports,
+        totalNumberOfRows: rownumber,
+        filename: req.file.filename,
+      });
     });
 };

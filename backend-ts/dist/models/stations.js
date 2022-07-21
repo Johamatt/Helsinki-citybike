@@ -94,14 +94,14 @@ __decorate([
 ], Stations.prototype, "Kapasiteet", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.DECIMAL,
+        type: sequelize_typescript_1.DataType.FLOAT(12, 6),
         allowNull: false,
     }),
     __metadata("design:type", Number)
 ], Stations.prototype, "x", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.DECIMAL,
+        type: sequelize_typescript_1.DataType.FLOAT(12, 6),
         allowNull: false,
     }),
     __metadata("design:type", Number)

@@ -38,7 +38,6 @@ const path = __importStar(require("path"));
 const csv_parse_1 = require("csv-parse");
 const travel_1 = require("../models/travel");
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
-const importReport_1 = require("../utils/report/importReport");
 const getAllTravels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
@@ -114,12 +113,6 @@ const uploadTravelCSV = (req, res, next) => {
         catch (err) {
             console.log(err);
         }
-        (0, importReport_1.importReport)({
-            dataModel: "travel",
-            failedImports: failedImports,
-            totalNumberOfRows: rownumber,
-            filename: req.file.filename,
-        });
         fs.close;
         return res.json({
             dataModel: "travel",
