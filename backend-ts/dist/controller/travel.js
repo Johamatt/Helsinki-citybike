@@ -76,26 +76,24 @@ const uploadTravelCSV = (req, res, next) => {
     });
     let travels = [];
     let failedImports = [];
-    let rownumber = 1;
+    let rownumber = 0;
     const read = fs
         .createReadStream(path.join(__dirname, "../utils/uploads", req.file.filename))
         .pipe(parser)
         .on("error", (error) => {
-        console.error(error);
         throw error.message;
     })
         .on("skip", (row) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(row.lines);
+        console.log(row);
         failedImports.push({ row: row.record, atRowNumber: row.lines });
     }))
         .on("data", (row) => __awaiter(void 0, void 0, void 0, function* () {
         rownumber++;
-        console.log(row);
         if ((0, validateCsvRow_1.validTravelCsvRow)(row)) {
             travels.push(row);
         }
         else {
-            failedImports.push({ row: row, atRowNumber: rownumber });
+            failedImports.push({ row: Object.values(row), atRowNumber: rownumber });
         }
         if (travels.length >= 50000) {
             try {
@@ -120,10 +118,15 @@ const uploadTravelCSV = (req, res, next) => {
             dataModel: "travel",
             failedImports: failedImports,
             totalNumberOfRows: rownumber,
+            filename: req.file.filename,
         });
-        console.log(failedImports);
         fs.close;
-        return res.json(res.statusCode);
+        return res.json({
+            dataModel: "travel",
+            failedImports: failedImports,
+            totalNumberOfRows: rownumber,
+            filename: req.file.filename,
+        });
     }));
 };
 exports.uploadTravelCSV = uploadTravelCSV;

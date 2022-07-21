@@ -5,7 +5,6 @@ import { parse } from "csv-parse";
 import { Travels } from "../models/travel";
 import moment from "moment";
 import { validTravelCsvRow } from "../utils/validation/validateCsvRow";
-import { importReport } from "../utils/report/importReport";
 
 export const getAllTravels: RequestHandler = async (req, res, next) => {
   const page: number = parseInt(req.query.page as string);
@@ -47,7 +46,7 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
 
   let travels: any = [];
   let failedImports: any = [];
-  let rownumber = 1;
+  let rownumber = 0;
 
   const read = fs
     .createReadStream(
@@ -55,20 +54,19 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
     )
     .pipe(parser)
     .on("error", (error) => {
-      console.error(error);
       throw error.message;
     })
     .on("skip", async (row) => {
-      console.log(row.lines);
+      console.log(row);
       failedImports.push({ row: row.record, atRowNumber: row.lines });
     })
     .on("data", async (row) => {
       rownumber++;
-      console.log(row);
+
       if (validTravelCsvRow(row)) {
         travels.push(row);
       } else {
-        failedImports.push({ row: row, atRowNumber: rownumber });
+        failedImports.push({ row: Object.values(row), atRowNumber: rownumber });
       }
 
       if (travels.length >= 50000) {
@@ -90,14 +88,13 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
         console.log(err);
       }
 
-      importReport({
+      fs.close;
+
+      return res.json({
         dataModel: "travel",
         failedImports: failedImports,
         totalNumberOfRows: rownumber,
+        filename: req.file.filename,
       });
-
-      console.log(failedImports);
-      fs.close;
-      return res.json(res.statusCode);
     });
 };
