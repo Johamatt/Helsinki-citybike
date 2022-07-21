@@ -73,6 +73,7 @@ const uploadTravelCSV = (req, res, next) => {
         ],
     });
     let travels = [];
+    let rownumber = 1;
     const read = fs
         .createReadStream(path.join(__dirname, "../utils/uploads", req.file.filename))
         .pipe(parser)
@@ -81,6 +82,7 @@ const uploadTravelCSV = (req, res, next) => {
         throw error.message;
     })
         .on("data", (row) => __awaiter(void 0, void 0, void 0, function* () {
+        rownumber++;
         console.log(row);
         if ((0, validateCsvRow_1.validTravelCsvRow)(row)) {
             travels.push(row);
