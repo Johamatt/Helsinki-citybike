@@ -38,7 +38,7 @@ export const validTravelCsvRow = (row: any) => {
 export const validStationCsvRow = (row: any) => {
   if (
     validAdress(row.adress) &&
-    validId(row.ID) &&
+    validId(row.id) &&
     validKapasiteet(row.kapasiteet) &&
     validKaupunki(row.kaupunki) &&
     validName(row.name) &&

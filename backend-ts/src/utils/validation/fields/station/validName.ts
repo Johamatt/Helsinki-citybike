@@ -6,4 +6,5 @@ export const validName = (name: any) => {
       return false;
     }
   }
+  return true;
 };

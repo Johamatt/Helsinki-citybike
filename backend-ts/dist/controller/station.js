@@ -62,16 +62,16 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         from_line: 2,
         columns: [
             "FID",
-            "ID",
-            "Nimi",
-            "Namn",
-            "Name",
-            "Osoite",
-            "Adress",
-            "Kaupunki",
-            "Stad",
-            "Operaattor",
-            "Kapasiteet",
+            "id",
+            "nimi",
+            "namn",
+            "name",
+            "osoite",
+            "adress",
+            "kaupunki",
+            "stad",
+            "operaattor",
+            "kapasiteet",
             "x",
             "y",
         ],
@@ -89,6 +89,7 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         failedImports.push({ row: row.record, atRowNumber: row.lines });
     }))
         .on("data", (row) => {
+        console.log(row);
         rownumber++;
         delete row.FID;
         if ((0, validateCsvRow_1.validStationCsvRow)(row)) {
@@ -107,7 +108,7 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         }
         fs.close;
         return res.json({
-            dataModel: "travel",
+            dataModel: "station",
             failedImports: failedImports,
             totalNumberOfRows: rownumber,
             filename: req.file.filename,

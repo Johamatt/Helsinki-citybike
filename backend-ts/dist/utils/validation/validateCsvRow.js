@@ -37,7 +37,7 @@ const validTravelCsvRow = (row) => {
 exports.validTravelCsvRow = validTravelCsvRow;
 const validStationCsvRow = (row) => {
     if ((0, validAdress_1.validAdress)(row.adress) &&
-        (0, validID_1.validId)(row.ID) &&
+        (0, validID_1.validId)(row.id) &&
         (0, validKapasiteet_1.validKapasiteet)(row.kapasiteet) &&
         (0, validKaupunki_1.validKaupunki)(row.kaupunki) &&
         (0, validName_1.validName)(row.name) &&

@@ -30,16 +30,16 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
     from_line: 2,
     columns: [
       "FID",
-      "ID",
-      "Nimi",
-      "Namn",
-      "Name",
-      "Osoite",
-      "Adress",
-      "Kaupunki",
-      "Stad",
-      "Operaattor",
-      "Kapasiteet",
+      "id",
+      "nimi",
+      "namn",
+      "name",
+      "osoite",
+      "adress",
+      "kaupunki",
+      "stad",
+      "operaattor",
+      "kapasiteet",
       "x",
       "y",
     ],
@@ -61,6 +61,7 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
       failedImports.push({ row: row.record, atRowNumber: row.lines });
     })
     .on("data", (row) => {
+      console.log(row);
       rownumber++;
       delete row.FID;
 

@@ -28,70 +28,70 @@ __decorate([
         allowNull: false,
     }),
     __metadata("design:type", Number)
-], Stations.prototype, "ID", void 0);
+], Stations.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Stations.prototype, "Nimi", void 0);
+], Stations.prototype, "nimi", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Stations.prototype, "Namn", void 0);
+], Stations.prototype, "namn", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Stations.prototype, "Name", void 0);
+], Stations.prototype, "name", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Stations.prototype, "Osoite", void 0);
+], Stations.prototype, "osoite", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Stations.prototype, "Adress", void 0);
+], Stations.prototype, "adress", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Stations.prototype, "Kaupunki", void 0);
+], Stations.prototype, "kaupunki", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Stations.prototype, "Stad", void 0);
+], Stations.prototype, "stad", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Stations.prototype, "Operaattor", void 0);
+], Stations.prototype, "operaattor", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
     }),
     __metadata("design:type", Number)
-], Stations.prototype, "Kapasiteet", void 0);
+], Stations.prototype, "kapasiteet", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.FLOAT(12, 6),

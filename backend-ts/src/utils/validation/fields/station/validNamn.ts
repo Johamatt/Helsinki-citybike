@@ -6,4 +6,5 @@ export const validNamn = (namn: any) => {
       return false;
     }
   }
+  return true;
 };

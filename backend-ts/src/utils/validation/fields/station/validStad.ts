@@ -6,4 +6,5 @@ export const validstad = (stad: any) => {
       return false;
     }
   }
+  return true;
 };

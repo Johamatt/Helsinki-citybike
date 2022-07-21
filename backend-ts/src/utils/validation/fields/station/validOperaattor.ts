@@ -6,4 +6,5 @@ export const validOperaattor = (operaattor: any) => {
       return false;
     }
   }
+  return true;
 };

@@ -6,4 +6,5 @@ export const validOsoite = (osoite: any) => {
       return false;
     }
   }
+  return true;
 };

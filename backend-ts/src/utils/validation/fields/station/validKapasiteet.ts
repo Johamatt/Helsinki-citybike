@@ -1,7 +1,10 @@
 export const validKapasiteet = (kapasiteet: any) => {
-  if (Number.isInteger(kapasiteet) && kapasiteet >= 1) {
-    return true;
-  } else {
-    false;
+  if (typeof kapasiteet !== "string") {
+    return false;
   }
+  const num = Number(kapasiteet);
+  if (Number.isInteger(num) && num > 0) {
+    return true;
+  }
+  return false;
 };

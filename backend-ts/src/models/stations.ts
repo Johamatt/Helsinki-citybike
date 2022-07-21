@@ -17,61 +17,61 @@ export class Stations extends Model {
     type: DataType.INTEGER,
     allowNull: false,
   })
-  ID!: Number;
+  id!: Number;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Nimi!: string;
+  nimi!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Namn!: string;
+  namn!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Name!: string;
+  name!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Osoite!: string;
+  osoite!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Adress!: string;
+  adress!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Kaupunki!: string;
+  kaupunki!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Stad!: string;
+  stad!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  Operaattor!: string;
+  operaattor!: string;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  Kapasiteet!: number;
+  kapasiteet!: number;
 
   @Column({
     type: DataType.FLOAT(12, 6),
