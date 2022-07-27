@@ -4,7 +4,7 @@ import {
   getTravelById,
   uploadTravelCSV,
 } from "../controller/travel";
-import { upload } from "../utils/multer.config";
+import { upload } from "../utils/validation/multer.config";
 
 const router = Router();
 router.get("/", getAllTravels);

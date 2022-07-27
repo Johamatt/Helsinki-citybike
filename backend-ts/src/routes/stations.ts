@@ -4,7 +4,7 @@ import {
   getStationById,
   uploadStationCSV,
 } from "../controller/station";
-import { upload } from "../utils/multer.config";
+import { upload } from "../utils/validation/multer.config";
 
 const router = Router();
 router.get("/", getAllStations);
