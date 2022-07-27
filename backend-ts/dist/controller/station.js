@@ -39,6 +39,7 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const getAllStations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    // todo error messages for incorrect params
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
     const allStations = yield stations_1.Stations.findAndCountAll({

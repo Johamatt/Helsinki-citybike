@@ -31,6 +31,7 @@ const config_1 = __importDefault(require("./db/config"));
 const travels_1 = __importDefault(require("./routes/travels"));
 const stations_1 = __importDefault(require("./routes/stations"));
 const app = (0, express_1.default)();
+const PORT = process.env.PORT || 3000;
 app.use((0, express_1.json)());
 app.use((0, express_1.urlencoded)({ extended: true }));
 app.use("/travels", travels_1.default);
@@ -41,10 +42,11 @@ app.use((err, req, res, next) => {
 config_1.default.sync().then(() => {
     try {
         config_1.default.authenticate();
-        console.log("Connection has been established successfully.");
     }
     catch (error) {
         console.error("Unable to connect to the database:", error);
     }
 });
-app.listen(3000);
+app.listen(PORT);
+module.exports = app;
+exports.default = app;

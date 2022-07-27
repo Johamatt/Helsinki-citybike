@@ -6,6 +6,11 @@ import * as path from "path";
 import { validStationCsvRow } from "../utils/validation/validateCsvRow";
 
 export const getAllStations: RequestHandler = async (req, res, next) => {
+  // todo error messages for incorrect params
+
+
+
+
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
 
