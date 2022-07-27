@@ -5,7 +5,7 @@ import travelRoutes from "./routes/travels";
 import stationRoutes from "./routes/stations";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 app.use(json());
 app.use(urlencoded({ extended: true }));

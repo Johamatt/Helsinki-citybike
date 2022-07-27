@@ -9,7 +9,7 @@ import { validGetAll } from "../utils/validation/queryparams/validGetAll";
 
 export const getAllTravels: RequestHandler = async (req, res, next) => {
   if (!validGetAll(req.query.page, req.query.size)) {
-    return res.status(200).json({ error: "invalid parameter values" });
+    return res.status(400).json({ error: "invalid parameter value(s)" });
   }
 
   const page: number = parseInt(req.query.page as string);

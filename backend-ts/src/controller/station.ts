@@ -5,10 +5,11 @@ import * as fs from "fs";
 import * as path from "path";
 import { validStationCsvRow } from "../utils/validation/validateCsvRow";
 import { validGetAll } from "../utils/validation/queryparams/validGetAll";
+import { validGetId } from "../utils/validation/queryparams/validGetById";
 
 export const getAllStations: RequestHandler = async (req, res, next) => {
   if (!validGetAll(req.query.page, req.query.size)) {
-    return res.status(200).json({ error: "invalid parameter values" });
+    return res.status(200).json({ error: "invalid parameter value(s)" });
   }
 
   const page: number = parseInt(req.query.page as string);
@@ -22,6 +23,10 @@ export const getAllStations: RequestHandler = async (req, res, next) => {
 };
 
 export const getStationById: RequestHandler = async (req, res, next) => {
+  if (!validGetId(req.params.id)) {
+    return res.status(200).json({ error: "invalid parameter value" });
+  }
+
   const { id } = req.params;
   const station: Stations | null = await Stations.findByPk(id);
   return res.status(200).json({ data: station });

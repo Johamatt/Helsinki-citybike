@@ -39,9 +39,10 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const validGetAll_1 = require("../utils/validation/queryparams/validGetAll");
+const validGetById_1 = require("../utils/validation/queryparams/validGetById");
 const getAllStations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetAll_1.validGetAll)(req.query.page, req.query.size)) {
-        return res.status(200).json({ error: "invalid parameter values" });
+        return res.status(200).json({ error: "invalid parameter value(s)" });
     }
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
@@ -53,6 +54,9 @@ const getAllStations = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.getAllStations = getAllStations;
 const getStationById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!(0, validGetById_1.validGetId)(req.params.id)) {
+        return res.status(200).json({ error: "invalid parameter value" });
+    }
     const { id } = req.params;
     const station = yield stations_1.Stations.findByPk(id);
     return res.status(200).json({ data: station });

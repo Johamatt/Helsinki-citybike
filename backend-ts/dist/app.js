@@ -31,7 +31,7 @@ const config_1 = __importDefault(require("./db/config"));
 const travels_1 = __importDefault(require("./routes/travels"));
 const stations_1 = __importDefault(require("./routes/stations"));
 const app = (0, express_1.default)();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 app.use((0, express_1.json)());
 app.use((0, express_1.urlencoded)({ extended: true }));
 app.use("/travels", travels_1.default);
