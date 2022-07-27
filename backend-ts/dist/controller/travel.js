@@ -38,10 +38,10 @@ const path = __importStar(require("path"));
 const csv_parse_1 = require("csv-parse");
 const travel_1 = require("../models/travel");
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
-const validGetAllTravels_1 = require("../utils/validation/API/validGetAllTravels");
+const validGetAll_1 = require("../utils/validation/queryparams/validGetAll");
 const getAllTravels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // todo error messages for incorrect params
-    if (!(0, validGetAllTravels_1.validGetAllTravels)(req.query.page, req.query.size)) {
+    if (!(0, validGetAll_1.validGetAll)(req.query.page, req.query.size)) {
         return res.status(200).json({ error: "invalid parameter values" });
     }
     const page = parseInt(req.query.page);

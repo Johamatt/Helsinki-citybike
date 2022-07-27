@@ -5,11 +5,9 @@ import { parse } from "csv-parse";
 import { Travels } from "../models/travel";
 import moment from "moment";
 import { validTravelCsvRow } from "../utils/validation/validateCsvRow";
-import { validGetAll } from "../utils/validation/API/validGetAll";
+import { validGetAll } from "../utils/validation/queryparams/validGetAll";
 
 export const getAllTravels: RequestHandler = async (req, res, next) => {
-  // todo error messages for incorrect params
-
   if (!validGetAll(req.query.page, req.query.size)) {
     return res.status(200).json({ error: "invalid parameter values" });
   }

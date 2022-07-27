@@ -4,7 +4,7 @@ import { parse } from "csv-parse";
 import * as fs from "fs";
 import * as path from "path";
 import { validStationCsvRow } from "../utils/validation/validateCsvRow";
-import { validGetAll } from "../utils/validation/API/validGetAll";
+import { validGetAll } from "../utils/validation/queryparams/validGetAll";
 
 export const getAllStations: RequestHandler = async (req, res, next) => {
   if (!validGetAll(req.query.page, req.query.size)) {

@@ -38,8 +38,11 @@ const csv_parse_1 = require("csv-parse");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
+const validGetAll_1 = require("../utils/validation/queryparams/validGetAll");
 const getAllStations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    // todo error messages for incorrect params
+    if (!(0, validGetAll_1.validGetAll)(req.query.page, req.query.size)) {
+        return res.status(200).json({ error: "invalid parameter values" });
+    }
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
     const allStations = yield stations_1.Stations.findAndCountAll({
