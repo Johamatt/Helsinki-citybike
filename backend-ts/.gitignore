@@ -1,6 +1,7 @@
 
 
 dist/
+node_modules
 
 # exclude everything
 src/utils/uploads/*

@@ -1,11 +1,12 @@
 import { RequestHandler } from "express";
-import { Stations } from "../models/stations";
 import { parse } from "csv-parse";
 import * as fs from "fs";
 import * as path from "path";
 import { validStationCsvRow } from "../utils/validation/validateCsvRow";
 import { validGetAll } from "../utils/validation/queryparams/validGetAll";
 import { validGetId } from "../utils/validation/queryparams/validGetById";
+
+import { Stations } from "../models/stations";
 
 export const getAllStations: RequestHandler = async (req, res, next) => {
   if (!validGetAll(req.query.page, req.query.size)) {

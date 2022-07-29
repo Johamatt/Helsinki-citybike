@@ -8,8 +8,6 @@ beforeAll((done) => {
 
 afterAll((done) => {
   connection.close();
-  // Closing the DB connection allows Jest to exit successfully.
-
   done();
 });
 
@@ -20,7 +18,7 @@ describe("Travels API", () => {
     expect(res.body).toHaveProperty("data");
   }),
     it("should return 10", async () => {
-      const res = await request(app).get("/travels/?page=1&size=10");
+      const res = await request(app).get("/travels/?page=0&size=10");
       expect(res.statusCode).toEqual(200);
       expect(res.body.data.rows).toHaveLength(10);
       expect(res.body).toHaveProperty("data");

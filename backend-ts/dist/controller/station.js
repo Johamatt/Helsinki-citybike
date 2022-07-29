@@ -33,13 +33,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadStationCSV = exports.getStationById = exports.getAllStations = void 0;
-const stations_1 = require("../models/stations");
 const csv_parse_1 = require("csv-parse");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const validGetAll_1 = require("../utils/validation/queryparams/validGetAll");
 const validGetById_1 = require("../utils/validation/queryparams/validGetById");
+const stations_1 = require("../models/stations");
 const getAllStations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetAll_1.validGetAll)(req.query.page, req.query.size)) {
         return res.status(200).json({ error: "invalid parameter value(s)" });

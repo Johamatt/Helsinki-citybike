@@ -2,10 +2,11 @@ import { RequestHandler } from "express";
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse";
-import { Travels } from "../models/travel";
 import moment from "moment";
 import { validTravelCsvRow } from "../utils/validation/validateCsvRow";
 import { validGetAll } from "../utils/validation/queryparams/validGetAll";
+
+import { Travels } from "../models/travel";
 
 export const getAllTravels: RequestHandler = async (req, res, next) => {
   if (!validGetAll(req.query.page, req.query.size)) {

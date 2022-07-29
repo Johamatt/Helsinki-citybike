@@ -36,9 +36,9 @@ exports.uploadTravelCSV = exports.getTravelById = exports.getAllTravels = void 0
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const csv_parse_1 = require("csv-parse");
-const travel_1 = require("../models/travel");
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const validGetAll_1 = require("../utils/validation/queryparams/validGetAll");
+const travel_1 = require("../models/travel");
 const getAllTravels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetAll_1.validGetAll)(req.query.page, req.query.size)) {
         return res.status(400).json({ error: "invalid parameter value(s)" });

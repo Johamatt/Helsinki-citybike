@@ -1,0 +1,32 @@
+version: '3.8'
+
+services: 
+  node_backend:
+    container_name: backend-ts
+    image: backend-ts:0.0.1
+    build: 
+      context: .
+    ports:
+      - "4000:4000"
+    environment: 
+      - EXTERNAL_PORT=4000
+      - PGDATABASE=helsinki-bike
+      - PGUSER=root
+      - PGPASSWORD=root
+      - PGHOST=node_db
+    depends_on: 
+      - node_db
+  node_db: 
+    container_name: node_db
+    image: "postgres:12"
+    ports:
+      - "5432:5432"
+    environment: 
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=helsinki-bike
+    volumes:
+      - nps_data:/var/lib/postgresql/data
+
+volumes:
+  nps_data: {}
