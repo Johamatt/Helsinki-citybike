@@ -3,12 +3,12 @@ import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse";
 import moment from "moment";
-import { validTravelCsvRow } from "../utils/validation/validateCsvRow";
+import { validTripCsvRow } from "../utils/validation/validateCsvRow";
 import { validGetAll } from "../utils/validation/queryparams/validGetAll";
 
-import  Travel  from "../models/travel";
+import Trip from "../models/trip";
 
-export const getAllTravels: RequestHandler = async (req, res, next) => {
+export const getAllTrips: RequestHandler = async (req, res, next) => {
   if (!validGetAll(req.query.page, req.query.size)) {
     return res.status(400).json({ error: "invalid parameter value(s)" });
   }
@@ -16,21 +16,21 @@ export const getAllTravels: RequestHandler = async (req, res, next) => {
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
 
-  const allTravels: any = await Travel.findAndCountAll({
+  const allTrips: any = await Trip.findAndCountAll({
     limit: size as number,
     offset: (page * size) as number,
   });
 
-  return res.status(200).json({ data: allTravels });
+  return res.status(200).json({ data: allTrips });
 };
 
-export const getTravelById: RequestHandler = async (req, res, next) => {
+export const getTripById: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
-  const travel: Travel | null = await Travel.findByPk(id);
-  return res.status(200).json({ data: travel });
+  const trip: Trip | null = await Trip.findByPk(id);
+  return res.status(200).json({ data: trip });
 };
 
-export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
+export const uploadTripCSV: RequestHandler = (req: any, res, next) => {
   const parser = parse({
     skip_records_with_error: true,
     delimiter: ",",
@@ -50,7 +50,7 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
     ],
   });
 
-  let travels: any = [];
+  let trips: any = [];
   let failedImports: any = [];
   let rownumber = 0;
 
@@ -69,17 +69,17 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
     .on("data", async (row) => {
       rownumber++;
 
-      if (validTravelCsvRow(row)) {
-        travels.push(row);
+      if (validTripCsvRow(row)) {
+        trips.push(row);
       } else {
         failedImports.push({ row: Object.values(row), atRowNumber: rownumber });
       }
 
-      if (travels.length >= 50000) {
+      if (trips.length >= 50000) {
         try {
           read.pause();
-          await Travel.bulkCreate(travels);
-          travels = [];
+          await Trip.bulkCreate(trips);
+          trips = [];
           read.resume();
         } catch (err) {
           console.log(err);
@@ -89,7 +89,7 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
 
     .on("end", async () => {
       try {
-        await Travel.bulkCreate(travels);
+        await Trip.bulkCreate(trips);
       } catch (err) {
         console.log(err);
       }
@@ -97,7 +97,7 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
       fs.close;
 
       return res.json({
-        dataModel: "travel",
+        dataModel: "trip",
         failedImports: failedImports,
         totalNumberOfRows: rownumber,
         filename: req.file.filename,

@@ -21,11 +21,11 @@ import {
   NonAttribute,
   ForeignKey,
 } from "sequelize";
-import Travel from "./travel";
+import Trip from "./trip";
 
 export default class Station extends Model<
-  InferAttributes<Station, { omit: "travels" }>,
-  InferCreationAttributes<Station, { omit: "travels" }>
+  InferAttributes<Station, { omit: "trips" }>,
+  InferCreationAttributes<Station, { omit: "trips" }>
 > {
   // id can be undefined during creation when using `autoIncrement`
   declare FID: CreationOptional<number>;
@@ -50,25 +50,25 @@ export default class Station extends Model<
   // Since TS cannot determine model association at compile time
   // we have to declare them here purely virtually
   // these will not exist until `Model.init` was called.
-  declare getTravels: HasManyGetAssociationsMixin<Travel>; // Note the null assertions!
-  declare addTravel: HasManyAddAssociationMixin<Travel, number>;
-  declare addTravels: HasManyAddAssociationsMixin<Travel, number>;
-  declare setTravels: HasManySetAssociationsMixin<Travel, number>;
-  declare removeTravel: HasManyRemoveAssociationMixin<Travel, number>;
-  declare removeTravels: HasManyRemoveAssociationsMixin<Travel, number>;
-  declare hasTravel: HasManyHasAssociationMixin<Travel, number>;
-  declare hasTravels: HasManyHasAssociationsMixin<Travel, number>;
-  declare countTravels: HasManyCountAssociationsMixin;
-  declare createTravel: HasManyCreateAssociationMixin<
-    Travel,
+  declare getTrips: HasManyGetAssociationsMixin<Trip>; // Note the null assertions!
+  declare addTrip: HasManyAddAssociationMixin<Trip, number>;
+  declare addTrips: HasManyAddAssociationsMixin<Trip, number>;
+  declare setTrips: HasManySetAssociationsMixin<Trip, number>;
+  declare removeTrip: HasManyRemoveAssociationMixin<Trip, number>;
+  declare removeTrips: HasManyRemoveAssociationsMixin<Trip, number>;
+  declare hasTrip: HasManyHasAssociationMixin<Trip, number>;
+  declare hasTrips: HasManyHasAssociationsMixin<Trip, number>;
+  declare countTrips: HasManyCountAssociationsMixin;
+  declare createTrip: HasManyCreateAssociationMixin<
+    Trip,
     "departureStationId",
     "returnStationId"
   >;
 
-  declare travels?: NonAttribute<Travel[]>; // Note this is optional since it's only populated when explicitly requested in code
+  declare trips?: NonAttribute<Trip[]>; // Note this is optional since it's only populated when explicitly requested in code
 
   declare static associations: {
-    travels: Association<Station, Travel>;
+    trips: Association<Station, Trip>;
   };
 
   static initModel(sequelize: Sequelize): void {

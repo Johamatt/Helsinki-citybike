@@ -9,9 +9,9 @@ import {
 } from "sequelize";
 import Station from "./stations";
 
-export default class Travel extends Model<
-  InferAttributes<Travel>,
-  InferCreationAttributes<Travel>
+export default class Trip extends Model<
+  InferAttributes<Trip>,
+  InferCreationAttributes<Trip>
 > {
   // id can be undefined during creation when using `autoIncrement`
   declare id: CreationOptional<number>;
@@ -19,8 +19,8 @@ export default class Travel extends Model<
   declare departureTime: Date;
   declare returnTime: Date;
 
-  // foreign keys are automatically added by associations methods (like Travel.belongsTo)
-  // by branding them using the `ForeignKey` type, `Travel.init` will know it does not need to
+  // foreign keys are automatically added by associations methods (like Trip.belongsTo)
+  // by branding them using the `ForeignKey` type, `Trip.init` will know it does not need to
   // display an error if ownerId is missing.
   declare departureStationId: ForeignKey<Station["id"]>;
   declare returnStationId: ForeignKey<Station["id"]>;
@@ -31,7 +31,7 @@ export default class Travel extends Model<
   declare durationInSeconds: number;
 
   static initModel(sequelize: Sequelize): void {
-    Travel.init(
+    Trip.init(
       {
         id: {
           type: DataTypes.INTEGER.UNSIGNED,
@@ -73,7 +73,7 @@ export default class Travel extends Model<
       },
       {
         sequelize,
-        tableName: "travels",
+        tableName: "trips",
       }
     );
   }

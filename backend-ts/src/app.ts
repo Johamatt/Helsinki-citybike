@@ -1,5 +1,5 @@
 import express, { urlencoded, json } from "express";
-import travelRoutes from "./routes/travels";
+import tripRoutes from "./routes/trips";
 import stationRoutes from "./routes/stations";
 import { db } from "./models";
 
@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 4000;
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
-app.use("/travels", travelRoutes);
+app.use("/trips", tripRoutes);
 app.use("/stations", stationRoutes);
 
 app.use(

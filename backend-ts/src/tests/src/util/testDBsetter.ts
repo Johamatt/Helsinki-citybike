@@ -1,18 +1,18 @@
-// import  Travels  from "../../../models/travel";
+// import  Trips  from "../../../models/trip";
 // import  Station  from "../../../models/stations";
 
 // import { Sequelize } from "sequelize-typescript";
-// import { travels } from "./dbData";
+// import { trips } from "./dbData";
 
-// const models: any = Travels, Station ;
+// const models: any = Trips, Station ;
 
-// export const generateTravels = async () => {
-//   return await Travels.bulkCreate(travels);
+// export const generateTrips = async () => {
+//   return await Trips.bulkCreate(trips);
 // };
 
-// export const getOneRandomTravel = async () => {
-//   await generateTravels();
-//   return Travels.findOne({ order: [Sequelize.fn("RAND")] });
+// export const getOneRandomTrip = async () => {
+//   await generateTrips();
+//   return Trips.findOne({ order: [Sequelize.fn("RAND")] });
 // };
 
 // export const cleanDatabase = async () => {

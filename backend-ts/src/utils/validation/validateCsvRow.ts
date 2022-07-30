@@ -10,16 +10,16 @@ import { validOsoite } from "./fields/station/validOsoite";
 import { validstad } from "./fields/station/validStad";
 import { validX } from "./fields/station/validX";
 import { validY } from "./fields/station/validY";
-import { validDepartureStationId } from "./fields/travel/validDepartureStationId";
-import { validDepartureStationName } from "./fields/travel/validDepartureStationName";
-import { validDepartureTime } from "./fields/travel/validDepartureTime";
-import { validDistanceInMeters } from "./fields/travel/validDistanceInMeters";
-import { validDurationInSeconds } from "./fields/travel/validDurationInSeconds";
-import { validReturnStationId } from "./fields/travel/validReturnStationId";
-import { validReturnStationName } from "./fields/travel/validReturnStationName";
-import { validReturnTime } from "./fields/travel/validReturnTime";
+import { validDepartureStationId } from "./fields/trip/validDepartureStationId";
+import { validDepartureStationName } from "./fields/trip/validDepartureStationName";
+import { validDepartureTime } from "./fields/trip/validDepartureTime";
+import { validDistanceInMeters } from "./fields/trip/validDistanceInMeters";
+import { validDurationInSeconds } from "./fields/trip/validDurationInSeconds";
+import { validReturnStationId } from "./fields/trip/validReturnStationId";
+import { validReturnStationName } from "./fields/trip/validReturnStationName";
+import { validReturnTime } from "./fields/trip/validReturnTime";
 
-export const validTravelCsvRow = (row: any) => {
+export const validTripCsvRow = (row: any) => {
   if (
     validDepartureStationId(row.departureStationId) &&
     validDepartureStationName(row.departureStationName) &&

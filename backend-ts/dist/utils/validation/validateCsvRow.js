@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validStationCsvRow = exports.validTravelCsvRow = void 0;
+exports.validStationCsvRow = exports.validTripCsvRow = void 0;
 const validAdress_1 = require("./fields/station/validAdress");
 const validID_1 = require("./fields/station/validID");
 const validKapasiteet_1 = require("./fields/station/validKapasiteet");
@@ -13,15 +13,15 @@ const validOsoite_1 = require("./fields/station/validOsoite");
 const validStad_1 = require("./fields/station/validStad");
 const validX_1 = require("./fields/station/validX");
 const validY_1 = require("./fields/station/validY");
-const validDepartureStationId_1 = require("./fields/travel/validDepartureStationId");
-const validDepartureStationName_1 = require("./fields/travel/validDepartureStationName");
-const validDepartureTime_1 = require("./fields/travel/validDepartureTime");
-const validDistanceInMeters_1 = require("./fields/travel/validDistanceInMeters");
-const validDurationInSeconds_1 = require("./fields/travel/validDurationInSeconds");
-const validReturnStationId_1 = require("./fields/travel/validReturnStationId");
-const validReturnStationName_1 = require("./fields/travel/validReturnStationName");
-const validReturnTime_1 = require("./fields/travel/validReturnTime");
-const validTravelCsvRow = (row) => {
+const validDepartureStationId_1 = require("./fields/trip/validDepartureStationId");
+const validDepartureStationName_1 = require("./fields/trip/validDepartureStationName");
+const validDepartureTime_1 = require("./fields/trip/validDepartureTime");
+const validDistanceInMeters_1 = require("./fields/trip/validDistanceInMeters");
+const validDurationInSeconds_1 = require("./fields/trip/validDurationInSeconds");
+const validReturnStationId_1 = require("./fields/trip/validReturnStationId");
+const validReturnStationName_1 = require("./fields/trip/validReturnStationName");
+const validReturnTime_1 = require("./fields/trip/validReturnTime");
+const validTripCsvRow = (row) => {
     if ((0, validDepartureStationId_1.validDepartureStationId)(row.departureStationId) &&
         (0, validDepartureStationName_1.validDepartureStationName)(row.departureStationName) &&
         (0, validDepartureTime_1.validDepartureTime)(row.departureTime) &&
@@ -34,7 +34,7 @@ const validTravelCsvRow = (row) => {
     }
     return false;
 };
-exports.validTravelCsvRow = validTravelCsvRow;
+exports.validTripCsvRow = validTripCsvRow;
 const validStationCsvRow = (row) => {
     if ((0, validAdress_1.validAdress)(row.adress) &&
         (0, validID_1.validId)(row.id) &&

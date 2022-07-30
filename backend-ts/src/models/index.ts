@@ -1,14 +1,14 @@
 import connection from "../db/config";
 import Station from "./stations";
-import Travel from "./travel";
+import Trip from "./trip";
 
 const sequelize = connection;
 
-Travel.initModel(sequelize);
+Trip.initModel(sequelize);
 Station.initModel(sequelize);
 
 export const db = {
   sequelize,
-  Travel,
+  Trip,
   Station,
 };

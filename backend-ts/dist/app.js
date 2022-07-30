@@ -27,14 +27,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
-const travels_1 = __importDefault(require("./routes/travels"));
+const trips_1 = __importDefault(require("./routes/trips"));
 const stations_1 = __importDefault(require("./routes/stations"));
 const models_1 = require("./models");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 4000;
 app.use((0, express_1.json)());
 app.use((0, express_1.urlencoded)({ extended: true }));
-app.use("/travels", travels_1.default);
+app.use("/trips", trips_1.default);
 app.use("/stations", stations_1.default);
 app.use((err, req, res, next) => {
     res.status(500).json({ message: err.message });
