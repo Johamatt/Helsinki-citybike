@@ -6,7 +6,7 @@ import moment from "moment";
 import { validTravelCsvRow } from "../utils/validation/validateCsvRow";
 import { validGetAll } from "../utils/validation/queryparams/validGetAll";
 
-import { Travels } from "../models/travel";
+import  Travel  from "../models/travel";
 
 export const getAllTravels: RequestHandler = async (req, res, next) => {
   if (!validGetAll(req.query.page, req.query.size)) {
@@ -16,7 +16,7 @@ export const getAllTravels: RequestHandler = async (req, res, next) => {
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
 
-  const allTravels: any = await Travels.findAndCountAll({
+  const allTravels: any = await Travel.findAndCountAll({
     limit: size as number,
     offset: (page * size) as number,
   });
@@ -26,7 +26,7 @@ export const getAllTravels: RequestHandler = async (req, res, next) => {
 
 export const getTravelById: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
-  const travel: Travels | null = await Travels.findByPk(id);
+  const travel: Travel | null = await Travel.findByPk(id);
   return res.status(200).json({ data: travel });
 };
 
@@ -78,7 +78,7 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
       if (travels.length >= 50000) {
         try {
           read.pause();
-          await Travels.bulkCreate(travels);
+          await Travel.bulkCreate(travels);
           travels = [];
           read.resume();
         } catch (err) {
@@ -89,7 +89,7 @@ export const uploadTravelCSV: RequestHandler = (req: any, res, next) => {
 
     .on("end", async () => {
       try {
-        await Travels.bulkCreate(travels);
+        await Travel.bulkCreate(travels);
       } catch (err) {
         console.log(err);
       }

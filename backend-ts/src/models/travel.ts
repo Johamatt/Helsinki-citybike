@@ -1,55 +1,80 @@
-import { Table, Model, Column, DataType } from "sequelize-typescript";
+import {
+  DataTypes,
+  Model,
+  Sequelize,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+  ForeignKey,
+} from "sequelize";
+import Station from "./stations";
 
-@Table({
-  timestamps: false,
-  tableName: "travels",
-})
-export class Travels extends Model {
-  @Column({
-    type: DataType.DATE,
-    allowNull: false,
-  })
-  departureTime!: Date;
+export default class Travel extends Model<
+  InferAttributes<Travel>,
+  InferCreationAttributes<Travel>
+> {
+  // id can be undefined during creation when using `autoIncrement`
+  declare id: CreationOptional<number>;
 
-  @Column({
-    type: DataType.DATE,
-    allowNull: false,
-  })
-  returnTime!: Date;
+  declare departureTime: Date;
+  declare returnTime: Date;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  departureStationId!: number;
+  // foreign keys are automatically added by associations methods (like Travel.belongsTo)
+  // by branding them using the `ForeignKey` type, `Travel.init` will know it does not need to
+  // display an error if ownerId is missing.
+  declare departureStationId: ForeignKey<Station["id"]>;
+  declare returnStationId: ForeignKey<Station["id"]>;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  departureStationName!: string;
+  declare departureStationName: string;
+  declare returnStationName: string;
+  declare distanceInMeters: number;
+  declare durationInSeconds: number;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  returnStationId!: number;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  returnStationName!: string;
-
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  distanceInMeters!: number;
-
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  durationInSeconds!: number;
+  static initModel(sequelize: Sequelize): void {
+    Travel.init(
+      {
+        id: {
+          type: DataTypes.INTEGER.UNSIGNED,
+          autoIncrement: true,
+          primaryKey: true,
+        },
+        departureTime: {
+          type: new DataTypes.DATE(),
+          allowNull: false,
+        },
+        returnTime: {
+          type: new DataTypes.DATE(),
+          allowNull: false,
+        },
+        departureStationId: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        departureStationName: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        returnStationId: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        returnStationName: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        distanceInMeters: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        durationInSeconds: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+      },
+      {
+        sequelize,
+        tableName: "travels",
+      }
+    );
+  }
 }

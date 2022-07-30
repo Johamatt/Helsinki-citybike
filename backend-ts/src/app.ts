@@ -1,8 +1,7 @@
 import express, { urlencoded, json } from "express";
-import connection from "./db/config";
 import travelRoutes from "./routes/travels";
-
 import stationRoutes from "./routes/stations";
+import { db } from "./models";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -23,9 +22,9 @@ app.use(
   }
 );
 
-connection.sync().then(() => {
+db.sequelize.sync().then(() => {
   try {
-    connection.authenticate();
+    db.sequelize.authenticate();
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }

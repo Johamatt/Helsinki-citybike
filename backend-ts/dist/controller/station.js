@@ -31,6 +31,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadStationCSV = exports.getStationById = exports.getAllStations = void 0;
 const csv_parse_1 = require("csv-parse");
@@ -39,14 +42,14 @@ const path = __importStar(require("path"));
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const validGetAll_1 = require("../utils/validation/queryparams/validGetAll");
 const validGetById_1 = require("../utils/validation/queryparams/validGetById");
-const stations_1 = require("../models/stations");
+const stations_1 = __importDefault(require("../models/stations"));
 const getAllStations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetAll_1.validGetAll)(req.query.page, req.query.size)) {
         return res.status(200).json({ error: "invalid parameter value(s)" });
     }
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
-    const allStations = yield stations_1.Stations.findAndCountAll({
+    const allStations = yield stations_1.default.findAndCountAll({
         limit: size,
         offset: (page * size),
     });
@@ -58,7 +61,7 @@ const getStationById = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json({ error: "invalid parameter value" });
     }
     const { id } = req.params;
-    const station = yield stations_1.Stations.findByPk(id);
+    const station = yield stations_1.default.findByPk(id);
     return res.status(200).json({ data: station });
 });
 exports.getStationById = getStationById;
@@ -109,7 +112,7 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     })
         .on("end", () => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            yield stations_1.Stations.bulkCreate(stations);
+            yield stations_1.default.bulkCreate(stations);
         }
         catch (err) {
             console.log(err);

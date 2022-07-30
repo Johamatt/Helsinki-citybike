@@ -1,7 +1,5 @@
-import { Sequelize } from "sequelize-typescript";
+import { Sequelize } from "sequelize";
 import "dotenv/config";
-import { Stations } from "../models/stations";
-import { Travels } from "../models/travel";
 
 const connection = new Sequelize({
   username: process.env.PGUSER,
@@ -9,7 +7,6 @@ const connection = new Sequelize({
   database: process.env.PGDATABASE,
   host: process.env.PGHOST,
   dialect: "postgres",
-  models: [Travels, Stations],
 });
 
 export default connection;

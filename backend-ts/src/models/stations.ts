@@ -1,87 +1,139 @@
-import { Table, Model, Column, DataType } from "sequelize-typescript";
+import {
+  Association,
+  DataTypes,
+  HasManyAddAssociationMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManySetAssociationsMixin,
+  HasManyAddAssociationsMixin,
+  HasManyHasAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyRemoveAssociationsMixin,
+  Model,
+  ModelDefined,
+  Optional,
+  Sequelize,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+  NonAttribute,
+  ForeignKey,
+} from "sequelize";
+import Travel from "./travel";
 
-@Table({
-  timestamps: false,
-  tableName: "stations",
-})
-export class Stations extends Model {
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  })
-  FID!: Number;
+export default class Station extends Model<
+  InferAttributes<Station, { omit: "travels" }>,
+  InferCreationAttributes<Station, { omit: "travels" }>
+> {
+  // id can be undefined during creation when using `autoIncrement`
+  declare FID: CreationOptional<number>;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  id!: Number;
+  declare id: number;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  nimi!: string;
+  declare nimi: string;
+  declare namn: string | null; // for nullable fields
+  declare name: string | null;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  namn!: string;
+  declare osoite: string;
+  declare adress: string | null; // for nullable fields
+  declare kaupunki: string | null;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  name!: string;
+  declare stad: string;
+  declare operaattor: string | null; // for nullable fields
+  declare kapasiteet: string | null;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  osoite!: string;
+  declare x: number;
+  declare y: number;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  adress!: string;
+  // Since TS cannot determine model association at compile time
+  // we have to declare them here purely virtually
+  // these will not exist until `Model.init` was called.
+  declare getTravels: HasManyGetAssociationsMixin<Travel>; // Note the null assertions!
+  declare addTravel: HasManyAddAssociationMixin<Travel, number>;
+  declare addTravels: HasManyAddAssociationsMixin<Travel, number>;
+  declare setTravels: HasManySetAssociationsMixin<Travel, number>;
+  declare removeTravel: HasManyRemoveAssociationMixin<Travel, number>;
+  declare removeTravels: HasManyRemoveAssociationsMixin<Travel, number>;
+  declare hasTravel: HasManyHasAssociationMixin<Travel, number>;
+  declare hasTravels: HasManyHasAssociationsMixin<Travel, number>;
+  declare countTravels: HasManyCountAssociationsMixin;
+  declare createTravel: HasManyCreateAssociationMixin<
+    Travel,
+    "departureStationId",
+    "returnStationId"
+  >;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  kaupunki!: string;
+  declare travels?: NonAttribute<Travel[]>; // Note this is optional since it's only populated when explicitly requested in code
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  stad!: string;
+  declare static associations: {
+    travels: Association<Station, Travel>;
+  };
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  operaattor!: string;
+  static initModel(sequelize: Sequelize): void {
+    Station.init(
+      {
+        FID: {
+          type: DataTypes.INTEGER.UNSIGNED,
+          autoIncrement: true,
+          primaryKey: true,
+        },
+        id: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        nimi: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        namn: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        name: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  kapasiteet!: number;
+        osoite: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        adress: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        kaupunki: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        stad: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        operaattor: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        kapasiteet: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        x: {
+          type: DataTypes.FLOAT(12, 6),
+          allowNull: false,
+        },
 
-  @Column({
-    type: DataType.FLOAT(12, 6),
-    allowNull: false,
-  })
-  x!: number;
-
-  @Column({
-    type: DataType.FLOAT(12, 6),
-    allowNull: false,
-  })
-  y!: number;
+        y: {
+          type: DataTypes.FLOAT(12, 6),
+          allowNull: false,
+        },
+      },
+      {
+        tableName: "stations",
+        sequelize, // passing the `sequelize` instance is required
+      }
+    );
+  }
 }

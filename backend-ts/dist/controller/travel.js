@@ -31,6 +31,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadTravelCSV = exports.getTravelById = exports.getAllTravels = void 0;
 const fs = __importStar(require("fs"));
@@ -38,14 +41,14 @@ const path = __importStar(require("path"));
 const csv_parse_1 = require("csv-parse");
 const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const validGetAll_1 = require("../utils/validation/queryparams/validGetAll");
-const travel_1 = require("../models/travel");
+const travel_1 = __importDefault(require("../models/travel"));
 const getAllTravels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetAll_1.validGetAll)(req.query.page, req.query.size)) {
         return res.status(400).json({ error: "invalid parameter value(s)" });
     }
     const page = parseInt(req.query.page);
     const size = parseInt(req.query.size);
-    const allTravels = yield travel_1.Travels.findAndCountAll({
+    const allTravels = yield travel_1.default.findAndCountAll({
         limit: size,
         offset: (page * size),
     });
@@ -54,7 +57,7 @@ const getAllTravels = (req, res, next) => __awaiter(void 0, void 0, void 0, func
 exports.getAllTravels = getAllTravels;
 const getTravelById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const travel = yield travel_1.Travels.findByPk(id);
+    const travel = yield travel_1.default.findByPk(id);
     return res.status(200).json({ data: travel });
 });
 exports.getTravelById = getTravelById;
@@ -101,7 +104,7 @@ const uploadTravelCSV = (req, res, next) => {
         if (travels.length >= 50000) {
             try {
                 read.pause();
-                yield travel_1.Travels.bulkCreate(travels);
+                yield travel_1.default.bulkCreate(travels);
                 travels = [];
                 read.resume();
             }
@@ -112,7 +115,7 @@ const uploadTravelCSV = (req, res, next) => {
     }))
         .on("end", () => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            yield travel_1.Travels.bulkCreate(travels);
+            yield travel_1.default.bulkCreate(travels);
         }
         catch (err) {
             console.log(err);
