@@ -4,24 +4,51 @@ import * as path from "path";
 import { parse } from "csv-parse";
 import moment from "moment";
 import { validTripCsvRow } from "../utils/validation/validateCsvRow";
-import { validGetAll } from "../utils/validation/queryparams/validGetAll";
+import { validGetPagination } from "../utils/validation/queryparams/validGetPagination";
 
 import Trip from "../models/trip";
+import { validGetPaginatedFilterTrip } from "../utils/validation/queryparams/validGetPaginatedFilterTrip";
 
-export const getTripsPaginated: RequestHandler = async (req, res, next) => {
-  if (!validGetAll(req.query.page, req.query.size)) {
+export const getPaginationFilter: RequestHandler = async (req, res, next) => {
+  if (
+    !validGetPaginatedFilterTrip(
+      req.query.page,
+      req.query.size,
+      req.query.column,
+      req.query.order
+    )
+  ) {
+    return res.status(400).json({ error: "invalid parameter value(s)" });
+  }
+
+  const order: any = req.query.order;
+  const col: any = req.query.column;
+  const page: number = parseInt(req.query.page as string);
+  const size: number = parseInt(req.query.size as string);
+
+  const filterPaginatedTrips: any = await Trip.findAndCountAll({
+    limit: size as number,
+    offset: (page * size) as number,
+    order: [[col, order]],
+  });
+
+  return res.status(200).json({ data: filterPaginatedTrips });
+};
+
+export const getTripsPagination: RequestHandler = async (req, res, next) => {
+  if (!validGetPagination(req.query.page, req.query.size)) {
     return res.status(400).json({ error: "invalid parameter value(s)" });
   }
 
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
 
-  const allTrips: any = await Trip.findAndCountAll({
+  const paginatedTrips: any = await Trip.findAndCountAll({
     limit: size as number,
     offset: (page * size) as number,
   });
 
-  return res.status(200).json({ data: allTrips });
+  return res.status(200).json({ data: paginatedTrips });
 };
 
 export const getTripById: RequestHandler = async (req, res, next) => {

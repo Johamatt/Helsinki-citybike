@@ -1,4 +1,4 @@
-export const validGetAll = (page: any, size: any) => {
+export const validGetPagination = (page: any, size: any) => {
   if (typeof page !== "string" && typeof size !== "string") {
     return false;
   }

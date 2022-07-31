@@ -3,16 +3,16 @@ import { parse } from "csv-parse";
 import * as fs from "fs";
 import * as path from "path";
 import { validStationCsvRow } from "../utils/validation/validateCsvRow";
-import { validGetAll } from "../utils/validation/queryparams/validGetAll";
+import { validGetPagination } from "../utils/validation/queryparams/validGetPagination";
 import { validGetId } from "../utils/validation/queryparams/validGetById";
 
 import Station from "../models/stations";
 
-export const getStationsPaginated: RequestHandler = async (req, res, next) => {
-  if (!validGetAll(req.query.page, req.query.size)) {
+export const getStationsPagination: RequestHandler = async (req, res, next) => {
+  if (!validGetPagination(req.query.page, req.query.size)) {
     return res.status(200).json({ error: "invalid parameter value(s)" });
   }
-
+  
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
 

@@ -1,16 +1,14 @@
 import { Router } from "express";
 import {
-  getStationsPaginated,
+  getStationsPagination,
   getStationById,
   uploadStationCSV,
 } from "../controller/station";
 import { upload } from "../utils/validation/multer.config";
 
 const router = Router();
-router.get("/pagination", getStationsPaginated);
+router.get("/pagination", getStationsPagination);
 router.get("/:id", getStationById);
 router.post("/upload", upload.single("file"), uploadStationCSV);
-
-router.get("/");
 
 export default router;
