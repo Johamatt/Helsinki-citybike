@@ -31,8 +31,9 @@ export const validTripCsvRow = (row: any) => {
     validReturnTime(row.returnTime)
   ) {
     return true;
+  } else {
+    return false;
   }
-  return false;
 };
 
 export const validStationCsvRow = (row: any) => {

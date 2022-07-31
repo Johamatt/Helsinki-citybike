@@ -1,7 +1,7 @@
 export const validDepartureStationId = (DepartureStationId: any) => {
-    if (Number.isInteger(DepartureStationId) && DepartureStationId > 0) {
-      return true;
-    } else {
-      false;
-    }
-  };
+  if (Number.isSafeInteger(DepartureStationId) && DepartureStationId > 0) {
+    return true;
+  }
+
+  return false;
+};

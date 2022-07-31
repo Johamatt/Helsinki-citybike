@@ -1,7 +1,7 @@
 export const validReturnStationId = (value: any) => {
-  if (Number.isInteger(value) && value > 0) {
+  if (Number.isSafeInteger(value) && value > 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 };

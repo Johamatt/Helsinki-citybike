@@ -7,9 +7,9 @@ export const validGetPaginatedFilterTrip = (query: any) => {
   const column = query.column;
 
   if (
-    Number.isInteger(pageNum) &&
+    Number.isSafeInteger(pageNum) &&
     pageNum >= 0 &&
-    Number.isInteger(sizeNum) &&
+    Number.isSafeInteger(sizeNum) &&
     sizeNum > 0 &&
     Object.keys(Trip.getAttributes()).includes(column) &&
     (orderStr === "asc" || orderStr === "desc")
