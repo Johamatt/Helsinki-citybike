@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadStationCSV = exports.getStationById = exports.getStationsPagination = void 0;
+exports.uploadStationCSV = exports.getStationById = exports.getStationsPagination = exports.getPaginationFilter = void 0;
 const csv_parse_1 = require("csv-parse");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
@@ -43,6 +43,23 @@ const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const validGetPagination_1 = require("../utils/validation/queryparams/validGetPagination");
 const validGetById_1 = require("../utils/validation/queryparams/validGetById");
 const stations_1 = __importDefault(require("../models/stations"));
+const validGetPaginatedFilterStation_1 = require("../utils/validation/queryparams/validGetPaginatedFilterStation");
+const getPaginationFilter = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!(0, validGetPaginatedFilterStation_1.validGetPaginatedFilterStation)(req.query.page, req.query.size, req.query.column, req.query.order)) {
+        return res.status(400).json({ error: "invalid parameter value(s)" });
+    }
+    const order = req.query.order;
+    const col = req.query.column;
+    const page = parseInt(req.query.page);
+    const size = parseInt(req.query.size);
+    const filterPaginatedTrips = yield stations_1.default.findAndCountAll({
+        limit: size,
+        offset: (page * size),
+        order: [[col, order]],
+    });
+    return res.status(200).json({ data: filterPaginatedTrips });
+});
+exports.getPaginationFilter = getPaginationFilter;
 const getStationsPagination = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetPagination_1.validGetPagination)(req.query.page, req.query.size)) {
         return res.status(200).json({ error: "invalid parameter value(s)" });

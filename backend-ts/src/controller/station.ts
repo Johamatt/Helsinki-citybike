@@ -7,12 +7,39 @@ import { validGetPagination } from "../utils/validation/queryparams/validGetPagi
 import { validGetId } from "../utils/validation/queryparams/validGetById";
 
 import Station from "../models/stations";
+import { validGetPaginatedFilterStation } from "../utils/validation/queryparams/validGetPaginatedFilterStation";
+
+export const getPaginationFilter: RequestHandler = async (req, res, next) => {
+  if (
+    !validGetPaginatedFilterStation(
+      req.query.page,
+      req.query.size,
+      req.query.column,
+      req.query.order
+    )
+  ) {
+    return res.status(400).json({ error: "invalid parameter value(s)" });
+  }
+
+  const order: any = req.query.order;
+  const col: any = req.query.column;
+  const page: number = parseInt(req.query.page as string);
+  const size: number = parseInt(req.query.size as string);
+
+  const filterPaginatedTrips: any = await Station.findAndCountAll({
+    limit: size as number,
+    offset: (page * size) as number,
+    order: [[col, order]],
+  });
+
+  return res.status(200).json({ data: filterPaginatedTrips });
+};
 
 export const getStationsPagination: RequestHandler = async (req, res, next) => {
   if (!validGetPagination(req.query.page, req.query.size)) {
     return res.status(200).json({ error: "invalid parameter value(s)" });
   }
-  
+
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
 
