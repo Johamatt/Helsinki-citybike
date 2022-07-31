@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  getPaginationFilter,
+  getTripsPaginationFilter,
   getTripsPagination,
   getTripById,
   uploadTripCSV,
@@ -8,7 +8,7 @@ import {
 import { upload } from "../utils/validation/multer.config";
 
 const router = Router();
-router.get("/paginationfiltering", getPaginationFilter);
+router.get("/paginationfiltering", getTripsPaginationFilter);
 router.get("/pagination", getTripsPagination);
 router.get("/:id", getTripById);
 router.post("/upload", upload.single("file"), uploadTripCSV);

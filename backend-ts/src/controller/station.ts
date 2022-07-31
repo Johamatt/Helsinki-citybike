@@ -9,15 +9,8 @@ import { validGetId } from "../utils/validation/queryparams/validGetById";
 import Station from "../models/stations";
 import { validGetPaginatedFilterStation } from "../utils/validation/queryparams/validGetPaginatedFilterStation";
 
-export const getPaginationFilter: RequestHandler = async (req, res, next) => {
-  if (
-    !validGetPaginatedFilterStation(
-      req.query.page,
-      req.query.size,
-      req.query.column,
-      req.query.order
-    )
-  ) {
+export const getStationsPaginationFilter: RequestHandler = async (req, res, next) => {
+  if (!validGetPaginatedFilterStation(req.query)) {
     return res.status(400).json({ error: "invalid parameter value(s)" });
   }
 
@@ -36,7 +29,7 @@ export const getPaginationFilter: RequestHandler = async (req, res, next) => {
 };
 
 export const getStationsPagination: RequestHandler = async (req, res, next) => {
-  if (!validGetPagination(req.query.page, req.query.size)) {
+  if (!validGetPagination(req.query)) {
     return res.status(200).json({ error: "invalid parameter value(s)" });
   }
 
@@ -51,7 +44,7 @@ export const getStationsPagination: RequestHandler = async (req, res, next) => {
 };
 
 export const getStationById: RequestHandler = async (req, res, next) => {
-  if (!validGetId(req.params.id)) {
+  if (!validGetId(req.params)) {
     return res.status(200).json({ error: "invalid parameter value" });
   }
 

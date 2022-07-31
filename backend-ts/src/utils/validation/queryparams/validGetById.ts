@@ -1,10 +1,6 @@
-export const validGetId = (id: any) => {
-  if (typeof id !== "string") {
-    return false;
-  }
-  const num = Number(id);
-
-  if (Number.isInteger(num) && num > 0) {
+export const validGetId = (query: any) => {
+  const id = Number(query.id);
+  if (Number.isInteger(id) && id > 0) {
     return true;
   }
   return false;

@@ -3,12 +3,12 @@ import {
   getStationsPagination,
   getStationById,
   uploadStationCSV,
-  getPaginationFilter,
+  getStationsPaginationFilter,
 } from "../controller/station";
 import { upload } from "../utils/validation/multer.config";
 
 const router = Router();
-router.get("/paginationfiltering", getPaginationFilter);
+router.get("/paginationfiltering", getStationsPaginationFilter);
 router.get("/pagination", getStationsPagination);
 router.get("/:id", getStationById);
 router.post("/upload", upload.single("file"), uploadStationCSV);

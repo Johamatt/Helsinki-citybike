@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadStationCSV = exports.getStationById = exports.getStationsPagination = exports.getPaginationFilter = void 0;
+exports.uploadStationCSV = exports.getStationById = exports.getStationsPagination = exports.getStationsPaginationFilter = void 0;
 const csv_parse_1 = require("csv-parse");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
@@ -44,8 +44,8 @@ const validGetPagination_1 = require("../utils/validation/queryparams/validGetPa
 const validGetById_1 = require("../utils/validation/queryparams/validGetById");
 const stations_1 = __importDefault(require("../models/stations"));
 const validGetPaginatedFilterStation_1 = require("../utils/validation/queryparams/validGetPaginatedFilterStation");
-const getPaginationFilter = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!(0, validGetPaginatedFilterStation_1.validGetPaginatedFilterStation)(req.query.page, req.query.size, req.query.column, req.query.order)) {
+const getStationsPaginationFilter = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!(0, validGetPaginatedFilterStation_1.validGetPaginatedFilterStation)(req.query)) {
         return res.status(400).json({ error: "invalid parameter value(s)" });
     }
     const order = req.query.order;
@@ -59,9 +59,9 @@ const getPaginationFilter = (req, res, next) => __awaiter(void 0, void 0, void 0
     });
     return res.status(200).json({ data: filterPaginatedTrips });
 });
-exports.getPaginationFilter = getPaginationFilter;
+exports.getStationsPaginationFilter = getStationsPaginationFilter;
 const getStationsPagination = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!(0, validGetPagination_1.validGetPagination)(req.query.page, req.query.size)) {
+    if (!(0, validGetPagination_1.validGetPagination)(req.query)) {
         return res.status(200).json({ error: "invalid parameter value(s)" });
     }
     const page = parseInt(req.query.page);
@@ -74,7 +74,7 @@ const getStationsPagination = (req, res, next) => __awaiter(void 0, void 0, void
 });
 exports.getStationsPagination = getStationsPagination;
 const getStationById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!(0, validGetById_1.validGetId)(req.params.id)) {
+    if (!(0, validGetById_1.validGetId)(req.params)) {
         return res.status(200).json({ error: "invalid parameter value" });
     }
     const { id } = req.params;

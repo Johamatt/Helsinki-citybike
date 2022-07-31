@@ -8,16 +8,10 @@ import { validGetPagination } from "../utils/validation/queryparams/validGetPagi
 
 import Trip from "../models/trip";
 import { validGetPaginatedFilterTrip } from "../utils/validation/queryparams/validGetPaginatedFilterTrip";
+import { validGetId } from "../utils/validation/queryparams/validGetById";
 
-export const getPaginationFilter: RequestHandler = async (req, res, next) => {
-  if (
-    !validGetPaginatedFilterTrip(
-      req.query.page,
-      req.query.size,
-      req.query.column,
-      req.query.order
-    )
-  ) {
+export const getTripsPaginationFilter: RequestHandler = async (req, res, next) => {
+  if (!validGetPaginatedFilterTrip(req.query)) {
     return res.status(400).json({ error: "invalid parameter value(s)" });
   }
 
@@ -36,7 +30,7 @@ export const getPaginationFilter: RequestHandler = async (req, res, next) => {
 };
 
 export const getTripsPagination: RequestHandler = async (req, res, next) => {
-  if (!validGetPagination(req.query.page, req.query.size)) {
+  if (!validGetPagination(req.query)) {
     return res.status(400).json({ error: "invalid parameter value(s)" });
   }
 
@@ -52,6 +46,9 @@ export const getTripsPagination: RequestHandler = async (req, res, next) => {
 };
 
 export const getTripById: RequestHandler = async (req, res, next) => {
+  if (!validGetId(req.params)) {
+    return res.status(200).json({ error: "invalid parameter value" });
+  }
   const { id } = req.params;
   const trip: Trip | null = await Trip.findByPk(id);
   return res.status(200).json({ data: trip });

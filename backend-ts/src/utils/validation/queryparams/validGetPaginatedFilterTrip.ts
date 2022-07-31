@@ -1,42 +1,21 @@
-export const validGetPaginatedFilterTrip = (
-  page: any,
-  size: any,
-  column: any,
-  order: any
-) => {
-  if (
-    typeof page !== "string" &&
-    typeof size !== "string" &&
-    typeof column !== "string" &&
-    typeof order !== "string"
-  ) {
-    return false;
-  }
-  const pageNum = Number(page);
-  const sizeNum = Number(size);
-  const orderStr = order.toLowerCase();
+import Trip from "../../../models/trip";
+
+export const validGetPaginatedFilterTrip = (query: any) => {
+  const pageNum = Number(query.page);
+  const sizeNum = Number(query.size);
+  const orderStr = query.order.toLowerCase();
+  const column = query.column;
 
   if (
     Number.isInteger(pageNum) &&
     pageNum >= 0 &&
     Number.isInteger(sizeNum) &&
-    sizeNum > 0
+    sizeNum > 0 &&
+    Object.keys(Trip.getAttributes()).includes(column) &&
+    (orderStr === "asc" || orderStr === "desc")
   ) {
-    if (
-      column === "id" ||
-      column === "returnTime" ||
-      column === "departureTime" ||
-      column === "departureStationId" ||
-      column === "departureStationName" ||
-      column === "returnStationId" ||
-      column === "returnStationName" ||
-      column === "distanceInMeters" ||
-      column === "durationInSeconds"
-    ) {
-      if (orderStr === "asc" || orderStr === "desc") {
-        return true;
-      }
-    }
+    return true;
+  } else {
+    return false;
   }
-  return false;
 };

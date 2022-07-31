@@ -4,7 +4,7 @@ const express_1 = require("express");
 const station_1 = require("../controller/station");
 const multer_config_1 = require("../utils/validation/multer.config");
 const router = (0, express_1.Router)();
-router.get("/paginationfiltering", station_1.getPaginationFilter);
+router.get("/paginationfiltering", station_1.getStationsPaginationFilter);
 router.get("/pagination", station_1.getStationsPagination);
 router.get("/:id", station_1.getStationById);
 router.post("/upload", multer_config_1.upload.single("file"), station_1.uploadStationCSV);

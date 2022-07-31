@@ -1,9 +1,6 @@
-export const validGetPagination = (page: any, size: any) => {
-  if (typeof page !== "string" && typeof size !== "string") {
-    return false;
-  }
-  const pageNum = Number(page);
-  const sizeNum = Number(size);
+export const validGetPagination = (query: any) => {
+  const pageNum = Number(query.page);
+  const sizeNum = Number(query.size);
   if (
     Number.isInteger(pageNum) &&
     pageNum >= 0 &&
