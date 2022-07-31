@@ -8,7 +8,7 @@ import { validGetAll } from "../utils/validation/queryparams/validGetAll";
 
 import Trip from "../models/trip";
 
-export const getAllTrips: RequestHandler = async (req, res, next) => {
+export const getTripsPaginated: RequestHandler = async (req, res, next) => {
   if (!validGetAll(req.query.page, req.query.size)) {
     return res.status(400).json({ error: "invalid parameter value(s)" });
   }
@@ -75,6 +75,7 @@ export const uploadTripCSV: RequestHandler = (req: any, res, next) => {
         failedImports.push({ row: Object.values(row), atRowNumber: rownumber });
       }
 
+      //limit bulkCreate to 50000, crash on bigger inserts.
       if (trips.length >= 50000) {
         try {
           read.pause();

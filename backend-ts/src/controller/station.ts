@@ -8,7 +8,7 @@ import { validGetId } from "../utils/validation/queryparams/validGetById";
 
 import Station from "../models/stations";
 
-export const getAllStations: RequestHandler = async (req, res, next) => {
+export const getStationsPaginated: RequestHandler = async (req, res, next) => {
   if (!validGetAll(req.query.page, req.query.size)) {
     return res.status(200).json({ error: "invalid parameter value(s)" });
   }
@@ -72,7 +72,6 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
       failedImports.push({ row: row.record, atRowNumber: row.lines });
     })
     .on("data", (row) => {
-      console.log(row);
       rownumber++;
       delete row.FID;
 

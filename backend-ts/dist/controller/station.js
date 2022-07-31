@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadStationCSV = exports.getStationById = exports.getAllStations = void 0;
+exports.uploadStationCSV = exports.getStationById = exports.getStationsPaginated = void 0;
 const csv_parse_1 = require("csv-parse");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
@@ -43,7 +43,7 @@ const validateCsvRow_1 = require("../utils/validation/validateCsvRow");
 const validGetAll_1 = require("../utils/validation/queryparams/validGetAll");
 const validGetById_1 = require("../utils/validation/queryparams/validGetById");
 const stations_1 = __importDefault(require("../models/stations"));
-const getAllStations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getStationsPaginated = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetAll_1.validGetAll)(req.query.page, req.query.size)) {
         return res.status(200).json({ error: "invalid parameter value(s)" });
     }
@@ -55,7 +55,7 @@ const getAllStations = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     });
     return res.status(200).json({ data: allStations });
 });
-exports.getAllStations = getAllStations;
+exports.getStationsPaginated = getStationsPaginated;
 const getStationById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetById_1.validGetId)(req.params.id)) {
         return res.status(200).json({ error: "invalid parameter value" });
@@ -100,7 +100,6 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         failedImports.push({ row: row.record, atRowNumber: row.lines });
     }))
         .on("data", (row) => {
-        console.log(row);
         rownumber++;
         delete row.FID;
         if ((0, validateCsvRow_1.validStationCsvRow)(row)) {
