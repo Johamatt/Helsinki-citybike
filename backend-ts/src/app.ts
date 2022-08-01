@@ -1,7 +1,7 @@
 import express, { urlencoded, json } from "express";
 import tripRoutes from "./routes/trips";
 import stationRoutes from "./routes/stations";
-import { db } from "./models";
+import { db } from "./db/db";
 
 const app = express();
 const PORT = process.env.PORT || 4000;

@@ -44,7 +44,7 @@ const validGetPagination_1 = require("../utils/validation/queryparams/validGetPa
 const validGetById_1 = require("../utils/validation/queryparams/validGetById");
 const stations_1 = __importDefault(require("../models/stations"));
 const validGetPaginatedFilterStation_1 = require("../utils/validation/queryparams/validGetPaginatedFilterStation");
-const getStationsPaginationFilter = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getStationsPaginationFilter = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetPaginatedFilterStation_1.validGetPaginatedFilterStation)(req.query)) {
         return res.status(400).json({ error: "invalid parameter value(s)" });
     }
@@ -60,7 +60,7 @@ const getStationsPaginationFilter = (req, res, next) => __awaiter(void 0, void 0
     return res.status(200).json({ data: filterPaginatedTrips });
 });
 exports.getStationsPaginationFilter = getStationsPaginationFilter;
-const getStationsPagination = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getStationsPagination = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetPagination_1.validGetPagination)(req.query)) {
         return res.status(200).json({ error: "invalid parameter value(s)" });
     }
@@ -73,7 +73,7 @@ const getStationsPagination = (req, res, next) => __awaiter(void 0, void 0, void
     return res.status(200).json({ data: allStations });
 });
 exports.getStationsPagination = getStationsPagination;
-const getStationById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getStationById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, validGetById_1.validGetId)(req.params)) {
         return res.status(200).json({ error: "invalid parameter value" });
     }
@@ -82,27 +82,13 @@ const getStationById = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     return res.status(200).json({ data: station });
 });
 exports.getStationById = getStationById;
-const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const uploadStationCSV = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const parser = (0, csv_parse_1.parse)({
         skip_records_with_error: true,
         delimiter: ",",
         encoding: "utf8",
         from_line: 2,
-        columns: [
-            "FID",
-            "id",
-            "nimi",
-            "namn",
-            "name",
-            "osoite",
-            "adress",
-            "kaupunki",
-            "stad",
-            "operaattor",
-            "kapasiteet",
-            "x",
-            "y",
-        ],
+        columns: Object.keys(stations_1.default.getAttributes()),
     });
     const stations = [];
     let failedImports = [];
@@ -110,11 +96,13 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     fs.createReadStream(path.join(__dirname, "../utils/uploads", req.file.filename))
         .pipe(parser)
         .on("error", (error) => {
-        console.error(error);
         throw error.message;
     })
         .on("skip", (row) => __awaiter(void 0, void 0, void 0, function* () {
-        failedImports.push({ row: row.record, atRowNumber: row.lines });
+        failedImports.push({
+            row: row.record.toString(),
+            atRowNumber: row.lines,
+        });
     }))
         .on("data", (row) => {
         rownumber++;
@@ -123,15 +111,18 @@ const uploadStationCSV = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             stations.push(row);
         }
         else {
-            failedImports.push({ row: Object.values(row), atRowNumber: rownumber });
+            failedImports.push({
+                row: Object.values(row).toString(),
+                atRowNumber: rownumber,
+            });
         }
     })
         .on("end", () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             yield stations_1.default.bulkCreate(stations);
         }
-        catch (err) {
-            console.log(err);
+        catch (error) {
+            console.log(error);
         }
         fs.close;
         return res.json({

@@ -58,6 +58,8 @@ class Station extends sequelize_1.Model {
                 allowNull: false,
             },
         }, {
+            createdAt: false,
+            updatedAt: false,
             tableName: "stations",
             sequelize, // passing the `sequelize` instance is required
         });

@@ -131,6 +131,8 @@ export default class Station extends Model<
         },
       },
       {
+        createdAt: false,
+        updatedAt: false,
         tableName: "stations",
         sequelize, // passing the `sequelize` instance is required
       }

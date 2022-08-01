@@ -5,37 +5,31 @@ import * as path from "path";
 import { validStationCsvRow } from "../utils/validation/validateCsvRow";
 import { validGetPagination } from "../utils/validation/queryparams/validGetPagination";
 import { validGetId } from "../utils/validation/queryparams/validGetById";
-
 import Station from "../models/stations";
 import { validGetPaginatedFilterStation } from "../utils/validation/queryparams/validGetPaginatedFilterStation";
 
-export const getStationsPaginationFilter: RequestHandler = async (req, res, next) => {
+export const getStationsPaginationFilter: RequestHandler = async (req, res) => {
   if (!validGetPaginatedFilterStation(req.query)) {
     return res.status(400).json({ error: "invalid parameter value(s)" });
   }
-
   const order: any = req.query.order;
   const col: any = req.query.column;
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
-
   const filterPaginatedTrips: any = await Station.findAndCountAll({
     limit: size as number,
     offset: (page * size) as number,
     order: [[col, order]],
   });
-
   return res.status(200).json({ data: filterPaginatedTrips });
 };
 
-export const getStationsPagination: RequestHandler = async (req, res, next) => {
+export const getStationsPagination: RequestHandler = async (req, res) => {
   if (!validGetPagination(req.query)) {
     return res.status(200).json({ error: "invalid parameter value(s)" });
   }
-
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
-
   const allStations: any = await Station.findAndCountAll({
     limit: size as number,
     offset: (page * size) as number,
@@ -43,37 +37,22 @@ export const getStationsPagination: RequestHandler = async (req, res, next) => {
   return res.status(200).json({ data: allStations });
 };
 
-export const getStationById: RequestHandler = async (req, res, next) => {
+export const getStationById: RequestHandler = async (req, res) => {
   if (!validGetId(req.params)) {
     return res.status(200).json({ error: "invalid parameter value" });
   }
-
   const { id } = req.params;
   const station: Station | null = await Station.findByPk(id);
   return res.status(200).json({ data: station });
 };
 
-export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
+export const uploadStationCSV: RequestHandler = async (req: any, res) => {
   const parser = parse({
     skip_records_with_error: true,
     delimiter: ",",
     encoding: "utf8",
     from_line: 2,
-    columns: [
-      "FID",
-      "id",
-      "nimi",
-      "namn",
-      "name",
-      "osoite",
-      "adress",
-      "kaupunki",
-      "stad",
-      "operaattor",
-      "kapasiteet",
-      "x",
-      "y",
-    ],
+    columns: Object.keys(Station.getAttributes()),
   });
 
   const stations: any = [];
@@ -85,27 +64,34 @@ export const uploadStationCSV: RequestHandler = async (req: any, res, next) => {
   )
     .pipe(parser)
     .on("error", (error) => {
-      console.error(error);
       throw error.message;
     })
+
     .on("skip", async (row) => {
-      failedImports.push({ row: row.record, atRowNumber: row.lines });
+      failedImports.push({
+        row: row.record.toString(),
+        atRowNumber: row.lines,
+      });
     })
+
     .on("data", (row) => {
       rownumber++;
       delete row.FID;
-
       if (validStationCsvRow(row)) {
         stations.push(row);
       } else {
-        failedImports.push({ row: Object.values(row), atRowNumber: rownumber });
+        failedImports.push({
+          row: Object.values(row).toString(),
+          atRowNumber: rownumber,
+        });
       }
     })
+
     .on("end", async () => {
       try {
         await Station.bulkCreate(stations);
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.log(error);
       }
       fs.close;
 

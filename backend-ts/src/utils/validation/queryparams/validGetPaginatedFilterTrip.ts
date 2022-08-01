@@ -5,7 +5,6 @@ export const validGetPaginatedFilterTrip = (query: any) => {
   const sizeNum = Number(query.size);
   const orderStr = query.order.toLowerCase();
   const column = query.column;
-
   if (
     Number.isSafeInteger(pageNum) &&
     pageNum >= 0 &&

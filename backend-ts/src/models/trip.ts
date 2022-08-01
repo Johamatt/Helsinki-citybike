@@ -72,6 +72,8 @@ export default class Trip extends Model<
         },
       },
       {
+        createdAt: false,
+        updatedAt: false,
         sequelize,
         tableName: "trips",
       }

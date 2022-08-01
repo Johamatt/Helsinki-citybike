@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
 const trips_1 = __importDefault(require("./routes/trips"));
 const stations_1 = __importDefault(require("./routes/stations"));
-const models_1 = require("./models");
+const db_1 = require("./db/db");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 4000;
 app.use((0, express_1.json)());
@@ -39,9 +39,9 @@ app.use("/stations", stations_1.default);
 app.use((err, req, res, next) => {
     res.status(500).json({ message: err.message });
 });
-models_1.db.sequelize.sync().then(() => {
+db_1.db.sequelize.sync().then(() => {
     try {
-        models_1.db.sequelize.authenticate();
+        db_1.db.sequelize.authenticate();
     }
     catch (error) {
         console.error("Unable to connect to the database:", error);

@@ -10,16 +10,14 @@ import Trip from "../models/trip";
 import { validGetPaginatedFilterTrip } from "../utils/validation/queryparams/validGetPaginatedFilterTrip";
 import { validGetId } from "../utils/validation/queryparams/validGetById";
 
-export const getTripsPaginationFilter: RequestHandler = async (req, res, next) => {
+export const getTripsPaginationFilter: RequestHandler = async (req, res) => {
   if (!validGetPaginatedFilterTrip(req.query)) {
     return res.status(400).json({ error: "invalid parameter value(s)" });
   }
-
   const order: any = req.query.order;
   const col: any = req.query.column;
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
-
   const filterPaginatedTrips: any = await Trip.findAndCountAll({
     limit: size as number,
     offset: (page * size) as number,
@@ -29,14 +27,13 @@ export const getTripsPaginationFilter: RequestHandler = async (req, res, next) =
   return res.status(200).json({ data: filterPaginatedTrips });
 };
 
-export const getTripsPagination: RequestHandler = async (req, res, next) => {
+export const getTripsPagination: RequestHandler = async (req, res) => {
   if (!validGetPagination(req.query)) {
     return res.status(400).json({ error: "invalid parameter value(s)" });
   }
 
   const page: number = parseInt(req.query.page as string);
   const size: number = parseInt(req.query.size as string);
-
   const paginatedTrips: any = await Trip.findAndCountAll({
     limit: size as number,
     offset: (page * size) as number,
@@ -45,7 +42,7 @@ export const getTripsPagination: RequestHandler = async (req, res, next) => {
   return res.status(200).json({ data: paginatedTrips });
 };
 
-export const getTripById: RequestHandler = async (req, res, next) => {
+export const getTripById: RequestHandler = async (req, res) => {
   if (!validGetId(req.params)) {
     return res.status(200).json({ error: "invalid parameter value" });
   }
@@ -54,7 +51,7 @@ export const getTripById: RequestHandler = async (req, res, next) => {
   return res.status(200).json({ data: trip });
 };
 
-export const uploadTripCSV: RequestHandler = (req: any, res, next) => {
+export const uploadTripCSV: RequestHandler = (req: any, res) => {
   const parser = parse({
     skip_records_with_error: true,
     delimiter: ",",
@@ -62,37 +59,28 @@ export const uploadTripCSV: RequestHandler = (req: any, res, next) => {
     cast: true,
     encoding: "utf8",
     from_line: 2,
-    columns: [
-      "departureTime",
-      "returnTime",
-      "departureStationId",
-      "departureStationName",
-      "returnStationId",
-      "returnStationName",
-      "distanceInMeters",
-      "durationInSeconds",
-    ],
+    columns: Object.keys(Trip.getAttributes()).slice(1),
   });
 
   let trips: any = [];
   let failedImports: any = [];
   let rownumber = 0;
-
   const read = fs
     .createReadStream(
       path.join(__dirname, "../utils/uploads", req.file.filename)
     )
     .pipe(parser)
+
     .on("error", (error) => {
       throw error.message;
     })
+
     .on("skip", async (row) => {
-      console.log(row);
       failedImports.push({ row: row.record, atRowNumber: row.lines });
     })
+
     .on("data", async (row) => {
       rownumber++;
-
       if (validTripCsvRow(row)) {
         trips.push(row);
       } else {
@@ -120,7 +108,6 @@ export const uploadTripCSV: RequestHandler = (req: any, res, next) => {
       }
 
       fs.close;
-
       return res.json({
         dataModel: "trip",
         failedImports: failedImports,

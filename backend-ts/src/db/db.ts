@@ -1,6 +1,6 @@
-import connection from "../db/config";
-import Station from "./stations";
-import Trip from "./trip";
+import connection from "./connection";
+import Station from "../models/stations";
+import Trip from "../models/trip";
 
 const sequelize = connection;
 

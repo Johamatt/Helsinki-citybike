@@ -4,6 +4,6 @@ export const validAdress = (adress: any) => {
       return true;
     }
   }
-
+  
   return false;
 };

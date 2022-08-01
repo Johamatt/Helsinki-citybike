@@ -1,3 +1,3 @@
 export const validX = (x: any) => {
-  return Number.isNaN(x);
+  return !Number.isNaN(x);
 };
