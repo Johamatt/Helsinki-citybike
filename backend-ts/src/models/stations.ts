@@ -64,8 +64,6 @@ export default class Station extends Model<
     trips: Association<Station, Trip>;
   };
 
-  
-
   static initModel(sequelize: Sequelize): void {
     Station.init(
       {

@@ -7,6 +7,8 @@ import { validGetPagination } from "../utils/validation/queryparams/validGetPagi
 import { validGetId } from "../utils/validation/queryparams/validGetById";
 import Station from "../models/stations";
 import { validGetPaginatedFilterStation } from "../utils/validation/queryparams/validGetPaginatedFilterStation";
+import connection from "../db/connection";
+import { QueryTypes } from "sequelize";
 
 export const getStationsPaginationFilter: RequestHandler = async (req, res) => {
   if (!validGetPaginatedFilterStation(req.query)) {
@@ -44,7 +46,21 @@ export const getStationById: RequestHandler = async (req, res) => {
   const { id } = req.params;
   const station: Station | null = await Station.findByPk(id);
 
-  return res.status(200).json({ data: station });
+  const returnStationCount = await connection.query(
+    `SELECT count(*) FROM "trips" WHERE "returnStationId"= ${id}`,
+    { type: QueryTypes.SELECT }
+  );
+
+  const departureStationCount = await connection.query(
+    `SELECT count(*) FROM "trips" WHERE "departureStationId"= ${id}`,
+    { type: QueryTypes.SELECT }
+  );
+
+  return res.status(200).json({
+    data: station,
+    totalTripsStarted: departureStationCount,
+    totalTripsReturned: returnStationCount,
+  });
 };
 
 export const uploadStationCSV: RequestHandler = async (req: any, res) => {
