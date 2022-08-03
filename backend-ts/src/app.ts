@@ -22,14 +22,15 @@ app.use(
   }
 );
 
-db.sequelize.sync().then(() => {
-  try {
-    db.sequelize.authenticate();
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-});
-
+(async () => {
+  await db.sequelize.sync().then(() => {
+    try {
+      db.sequelize.authenticate();
+    } catch (error) {
+      console.error("Unable to connect to the database:", error);
+    }
+  });
+})();
 app.listen(PORT);
 
 module.exports = app;

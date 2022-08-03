@@ -43,6 +43,7 @@ export const getStationById: RequestHandler = async (req, res) => {
   }
   const { id } = req.params;
   const station: Station | null = await Station.findByPk(id);
+
   return res.status(200).json({ data: station });
 };
 

@@ -6,6 +6,7 @@ import {
   InferCreationAttributes,
   CreationOptional,
   ForeignKey,
+  NonAttribute,
 } from "sequelize";
 import Station from "./stations";
 
@@ -21,7 +22,7 @@ export default class Trip extends Model<
 
   // foreign keys are automatically added by associations methods (like Trip.belongsTo)
   // by branding them using the `ForeignKey` type, `Trip.init` will know it does not need to
-  // display an error if ownerId is missing.
+  // display an error if departureStationId + returnStationId is missing.
   declare departureStationId: ForeignKey<Station["id"]>;
   declare returnStationId: ForeignKey<Station["id"]>;
 
@@ -29,6 +30,8 @@ export default class Trip extends Model<
   declare returnStationName: string;
   declare distanceInMeters: number;
   declare durationInSeconds: number;
+
+  declare owner?: NonAttribute<Trip>;
 
   static initModel(sequelize: Sequelize): void {
     Trip.init(
@@ -48,7 +51,6 @@ export default class Trip extends Model<
         },
         departureStationId: {
           type: DataTypes.INTEGER,
-          allowNull: false,
         },
         departureStationName: {
           type: DataTypes.STRING,
@@ -56,7 +58,6 @@ export default class Trip extends Model<
         },
         returnStationId: {
           type: DataTypes.INTEGER,
-          allowNull: false,
         },
         returnStationName: {
           type: DataTypes.STRING,

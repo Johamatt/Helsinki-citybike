@@ -3,9 +3,21 @@ import Station from "../models/stations";
 import Trip from "../models/trip";
 
 const sequelize = connection;
-
-Trip.initModel(sequelize);
 Station.initModel(sequelize);
+Trip.initModel(sequelize);
+
+// Station.hasMany(Trip, {
+//   sourceKey: "id",
+//   foreignKey: "departureStationId",
+//   as: "tripsDepartureStationId",
+// });
+// Station.hasMany(Trip, {
+//   sourceKey: "id",
+//   foreignKey: "returnStationId",
+//   as: "tripsReturnStationId",
+// });
+
+
 
 export const db = {
   sequelize,

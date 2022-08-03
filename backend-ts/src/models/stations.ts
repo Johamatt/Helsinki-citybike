@@ -12,14 +12,11 @@ import {
   HasManyRemoveAssociationMixin,
   HasManyRemoveAssociationsMixin,
   Model,
-  ModelDefined,
-  Optional,
   Sequelize,
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
   NonAttribute,
-  ForeignKey,
 } from "sequelize";
 import Trip from "./trip";
 
@@ -30,7 +27,7 @@ export default class Station extends Model<
   // id can be undefined during creation when using `autoIncrement`
   declare FID: CreationOptional<number>;
 
-  declare id: number;
+  declare id: CreationOptional<number>;
 
   declare nimi: string;
   declare namn: string | null; // for nullable fields
@@ -59,11 +56,7 @@ export default class Station extends Model<
   declare hasTrip: HasManyHasAssociationMixin<Trip, number>;
   declare hasTrips: HasManyHasAssociationsMixin<Trip, number>;
   declare countTrips: HasManyCountAssociationsMixin;
-  declare createTrip: HasManyCreateAssociationMixin<
-    Trip,
-    "departureStationId",
-    "returnStationId"
-  >;
+  declare createTrip: HasManyCreateAssociationMixin<Trip, "id">;
 
   declare trips?: NonAttribute<Trip[]>; // Note this is optional since it's only populated when explicitly requested in code
 
@@ -71,17 +64,19 @@ export default class Station extends Model<
     trips: Association<Station, Trip>;
   };
 
+  
+
   static initModel(sequelize: Sequelize): void {
     Station.init(
       {
         FID: {
-          type: DataTypes.INTEGER.UNSIGNED,
+          type: DataTypes.INTEGER,
           autoIncrement: true,
-          primaryKey: true,
         },
         id: {
           type: DataTypes.INTEGER,
           allowNull: false,
+          primaryKey: true,
         },
         nimi: {
           type: DataTypes.STRING,
@@ -95,7 +90,6 @@ export default class Station extends Model<
           type: DataTypes.STRING,
           allowNull: false,
         },
-
         osoite: {
           type: DataTypes.STRING,
           allowNull: false,
@@ -121,12 +115,12 @@ export default class Station extends Model<
           allowNull: false,
         },
         x: {
-          type: DataTypes.FLOAT(12, 6),
+          type: DataTypes.FLOAT,
           allowNull: false,
         },
 
         y: {
-          type: DataTypes.FLOAT(12, 6),
+          type: DataTypes.FLOAT,
           allowNull: false,
         },
       },

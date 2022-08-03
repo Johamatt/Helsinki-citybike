@@ -80,6 +80,7 @@ export const uploadTripCSV: RequestHandler = (req: any, res) => {
     })
 
     .on("data", async (row) => {
+      console.log(row);
       rownumber++;
       if (validTripCsvRow(row)) {
         trips.push(row);

@@ -1,3 +1,4 @@
+import Trip from "../../models/trip";
 import { validAdress } from "./fields/station/validAdress";
 import { validId } from "./fields/station/validID";
 import { validKapasiteet } from "./fields/station/validKapasiteet";
@@ -20,6 +21,8 @@ import { validReturnStationName } from "./fields/trip/validReturnStationName";
 import { validReturnTime } from "./fields/trip/validReturnTime";
 
 export const validTripCsvRow = (row: any) => {
+  console.log(Object.keys(Trip.getAttributes()).slice(1));
+  console.log(row);
   if (
     validDepartureStationId(row.departureStationId) &&
     validDepartureStationName(row.departureStationName) &&
