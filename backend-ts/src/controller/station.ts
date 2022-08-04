@@ -50,16 +50,14 @@ export const getStationById: RequestHandler = async (req, res) => {
     `SELECT count(*) FROM "trips" WHERE "returnStationId"= ${id}`,
     { type: QueryTypes.SELECT }
   );
-
   const departureStationCount = await connection.query(
     `SELECT count(*) FROM "trips" WHERE "departureStationId"= ${id}`,
     { type: QueryTypes.SELECT }
   );
-
   return res.status(200).json({
     data: station,
     totalTripsStarted: departureStationCount,
-    totalTripsReturned: returnStationCount,
+    totalTripsEnded: returnStationCount,
   });
 };
 

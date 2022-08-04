@@ -80,7 +80,6 @@ export const uploadTripCSV: RequestHandler = (req: any, res) => {
     })
 
     .on("data", async (row) => {
-      console.log(row);
       rownumber++;
       if (validTripCsvRow(row)) {
         trips.push(row);
@@ -88,8 +87,8 @@ export const uploadTripCSV: RequestHandler = (req: any, res) => {
         failedImports.push({ row: Object.values(row), atRowNumber: rownumber });
       }
 
-      //limit bulkCreate to 50000, crash on bigger inserts.
-      if (trips.length >= 50000) {
+      //limit bulkCreate to 20000, crash on bigger inserts.
+      if (trips.length >= 20000) {
         try {
           read.pause();
           await Trip.bulkCreate(trips);
