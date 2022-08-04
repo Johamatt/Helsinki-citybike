@@ -5,6 +5,23 @@ import { db } from "./db/db";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+import cors from "cors";
+
+const options: cors.CorsOptions = {
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "X-Access-Token",
+  ],
+  credentials: true,
+  methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+  origin: "http://localhost:3000",
+  preflightContinue: false,
+};
+app.use(cors(options));
+
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
