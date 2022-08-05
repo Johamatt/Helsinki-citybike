@@ -7,7 +7,6 @@
     border-bottom: 1px solid #eeee;
 }
 
-
 .navbar .container {
     height: 100%;
     display: flex;
@@ -16,9 +15,6 @@
     padding: 1rem;
 }
 
-
-
 .navbar span {
     color: green;
 }
-

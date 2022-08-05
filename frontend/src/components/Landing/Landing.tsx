@@ -1,32 +1,21 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { MdDirectionsBike } from "react-icons/md";
-
+import { Table } from "../Table/Table";
+import { TripUpload } from "../Upload/FileUpload";
 import "./Landing.css";
 
-function Landing() {
+export const Landing: React.FC<{}> = () => {
   return (
     <div className="landing">
       <div className="content">
-        <h1>
-          Upload files{" "}
-          {/* <span>
-            {" "}
-            . . . <MdDirectionsBike style={{ fontSize: 40 }}></MdDirectionsBike>
-          </span> */}
-        </h1>
-
-        <p className="search-text">Import bike travel file here!</p>
-        <form className="upload">
-          <div>
-            <label className="file-upload">
-              <input type="file" name="fileToUpload" id="fileToUpload" />
-              Choose Files
-            </label>
-          </div>
-        </form>
+        <div className="uploadsForm">
+          <TripUpload modelType="trips" />
+          <TripUpload modelType="stations" />
+        </div>
+        <Table />
       </div>
     </div>
   );
-}
+};
 
 export default Landing;

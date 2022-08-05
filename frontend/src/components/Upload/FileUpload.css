@@ -1,0 +1,38 @@
+h1 {
+    font-size: 2rem;
+    text-transform: capitalize;
+
+    margin: 1.5rem;
+}
+
+
+.btn {
+    color: #ffff;
+    padding: 12px 24px;
+
+    /* Created with https://www.css-gradient.com */
+    background: #9414F7;
+    background: -webkit-linear-gradient(top left, #9414F7, #A544E5);
+    background: -moz-linear-gradient(top left, #9414F7, #A544E5);
+    background: linear-gradient(to bottom right, #9414F7, #A544E5);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+
+.file-upload {
+    color: #ffff;
+    padding: 12px 24px;
+    background-image: linear-gradient(45deg, #099864 0%, #00ff00 100%);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.file-upload input {
+    overflow: hidden;
+    width: 0;
+}
