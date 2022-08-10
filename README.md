@@ -5,26 +5,24 @@ This project allows user to upload trip or station csv data (Example files: http
 
 
 
-How to install:
+## How to install:
 
-1. Git clone https://github.com/Johamatt/Helsinki-citybike.git
+### Backend:
 
-Backend:
+1. Go to Helsinki-citybike/backend-ts -folder
 
-2. Go to Helsinki-citybike/backend-ts -folder
+2. Run `npm install`
 
-3. Run npm install
+3. Run `npm start` (creates dist folder)
 
-4. Run npm start (creates dist folder)
+4. Run `docker build -t backend .`
 
-5. Run docker build -t backend .
+5. Run `docker compose up`
 
-6. Run docker compose up
+### Frontend:
 
-Frontend:
+1. Go to Helsinki-citybike/frontend/ -folder
 
-2. Go to Helsinki-citybike/frontend/ -folder
+2. Run `npm install`
 
-3. Run npm install
-
-4. Run npm start
+3. Run `npm start`
