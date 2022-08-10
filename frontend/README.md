@@ -1,6 +1,21 @@
-# Getting Started with Create React App
+# This service contains interface for data uploading and data retrieved from backend service. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Stack:
+
+- React 
+- Typescript
+- Axios
+- React-table tanstack
+
+---
+
+Contains: 
+
+- File input for csv uploading
+- Table with filter and pagination features.
+
+---
+
 
 ## Available Scripts
 
