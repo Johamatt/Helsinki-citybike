@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Stations } from "./Stations";
 
 export const Table: React.FC<any> = ({}) => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -21,5 +22,9 @@ export const Table: React.FC<any> = ({}) => {
 
   console.log(data);
 
-  return <div className="container"></div>;
+  return (
+    <div className="container">
+      <Stations data={data} loading={loading} />
+    </div>
+  );
 };

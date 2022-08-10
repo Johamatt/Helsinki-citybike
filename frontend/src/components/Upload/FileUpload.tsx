@@ -1,44 +1,41 @@
-import axios from "axios";
+import { AxiosResponse } from "axios";
 import React, { useRef, useState } from "react";
-
-import { MdDirectionsBike } from "react-icons/md";
+import { postData } from "../../axios/postData";
 import "./FileUpload.css";
 
 interface Props {
-  modelType: string | null;
+  modelType: string;
 }
 
 export const TripUpload: React.FC<Props> = ({ modelType }) => {
   const [file, setFile] = useState<File | null>();
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState<
+    AxiosResponse<any, any> | undefined
+  >();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const handleFileChange = function (e: React.ChangeEvent<HTMLInputElement>) {
     const fileList = e.target.files;
     if (!fileList) return;
     setFile(fileList[0]);
-    console.log(fileList[0]);
   };
 
   const uploadFile = async function (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) {
-    e.preventDefault();
+    event.preventDefault();
     if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-      try {
-        const res = await axios.post(
-          `http://localhost:4000/${modelType}/upload`,
-          formData
-        );
-        console.log(res);
-      } catch (ex) {
-        console.log(ex);
-      }
+      setLoading(true);
+      const res = await postData(file, modelType);
+      setResponse(res);
+      setIsFileUploaded(true);
+      setLoading(false);
     }
-    console.log("k");
   };
 
+  console.log(response);
   return (
     <div className="content">
       <h1>Upload {modelType} </h1>
@@ -64,7 +61,28 @@ export const TripUpload: React.FC<Props> = ({ modelType }) => {
             <div />
           )}
         </div>
-      </form>
+      </form>{" "}
+      {isFileUploaded ? (
+        <div>
+          <p>{file?.name} uploaded to database</p>
+        </div>
+      ) : (
+        <div />
+      )}
+      {loading ? (
+        <div>
+          <p>loading . . .</p>
+        </div>
+      ) : (
+        <div />
+      )}
+      {response !== undefined ? (
+        <div>
+          <p>{response?.data.dataModel}</p>
+        </div>
+      ) : (
+        <div />
+      )}
     </div>
   );
 };
