@@ -35,7 +35,6 @@ export const TripUpload: React.FC<Props> = ({ modelType }) => {
     }
   };
 
-  console.log(response);
   return (
     <div className="content">
       <h1>Upload {modelType} </h1>

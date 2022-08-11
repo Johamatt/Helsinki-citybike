@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
-import { MdDirectionsBike } from "react-icons/md";
-import { Table } from "../Table/Table";
+import React from "react";
+import { Stations } from "../Table/Stations";
 import { TripUpload } from "../Upload/FileUpload";
 import "./Landing.css";
 
@@ -13,7 +12,7 @@ export const Landing: React.FC<{}> = () => {
           <TripUpload modelType="stations" />
         </div>
       </div>
-      <Table />
+      <Stations />
     </div>
   );
 };

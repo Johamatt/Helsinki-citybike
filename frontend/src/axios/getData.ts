@@ -1,20 +1,17 @@
 import axios, { AxiosResponse } from "axios";
+import { ResponseData } from "../types/responseTypes";
 
 export const getdata = async (
-  file: File,
+  page: number,
   modelType: string
-): Promise<AxiosResponse<any, any> | undefined> => {
-  let response;
-  const formData = new FormData();
-  formData.append("file", file);
+): Promise<ResponseData | undefined> => {
+  let data;
   try {
-    response = await axios.post(
-      `http://localhost:4000/${modelType}/upload`,
-      formData
+    data = await axios.get(
+      `http://localhost:4000/${modelType}/pagination/?page=${page}&size=10`
     );
   } catch (err) {
     console.log(err);
   }
-
-  return response;
+  return data?.data.data;
 };

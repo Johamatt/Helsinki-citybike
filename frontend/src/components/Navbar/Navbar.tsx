@@ -1,6 +1,4 @@
-import React from "react";
 import "./Navbar.css";
-import { MdDirectionsBike } from "react-icons/md";
 
 function Navbar() {
   return (
