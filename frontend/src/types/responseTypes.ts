@@ -5,20 +5,29 @@ export interface ResponseData {
 
 export interface Station {
   FID: number;
-  ID: number;
-  Nimi: string;
-  Namn: string;
-  Name: string;
-  Adress: string;
-  Kaupunki: string;
-  Stad: string;
-  Operaattor: string;
-  Kapasiteet: number;
+  id: number;
+  nimi: string;
+  namn: string;
+  name: string;
+  adress: string;
+  kaupunki: string;
+  stad: string;
+  operaattor: string;
+  kapasiteet: number;
   x: number;
   y: number;
 }
 
 export interface Trip {
   id: number;
+  departureTime: Date;
+  returnTime: Date;
+  departureStationId: number;
+  departureStationName: string;
+  returnStationId: number;
+  returnStationName: string;
+  distanceInMeters: number;
+  durationInSeconds: number;
+
   //...
 }
