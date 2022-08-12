@@ -7,7 +7,7 @@ interface Props {
   modelType: "stations" | "trips";
 }
 
-export const TripUpload: React.FC<Props> = ({ modelType }) => {
+export const FileUpload: React.FC<Props> = ({ modelType }) => {
   const [file, setFile] = useState<File | null>();
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ export const TripUpload: React.FC<Props> = ({ modelType }) => {
   };
 
   return (
-    <div className="content">
+    <div className="d-flex flex-row align-items-center">
       <h1>Upload {modelType} </h1>
       <form className="upload">
         <div>

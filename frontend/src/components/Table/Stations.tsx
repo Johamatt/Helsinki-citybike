@@ -8,6 +8,7 @@ import {
 } from "react-icons/ai";
 
 import { Station } from "../../types/responseTypes";
+import { FileUpload } from "../Upload/FileUpload";
 
 export const Stations: React.FC = () => {
   const [data, setData] = useState<Station[] | undefined>();
@@ -33,6 +34,9 @@ export const Stations: React.FC = () => {
 
   return (
     <div className="container">
+      <div className="container">
+        <FileUpload modelType="stations" />
+      </div>
       {data !== undefined ? (
         <div>
           <table className="table">

@@ -8,6 +8,7 @@ import {
 } from "react-icons/ai";
 
 import { Trip } from "../../types/responseTypes";
+import { FileUpload } from "../Upload/FileUpload";
 
 export const Trips: React.FC = () => {
   const [data, setData] = useState<Trip[] | undefined>();
@@ -33,6 +34,9 @@ export const Trips: React.FC = () => {
 
   return (
     <div className="container">
+      <div className="container">
+        <FileUpload modelType="trips" />
+      </div>
       {data !== undefined ? (
         <div>
           <table className="table">

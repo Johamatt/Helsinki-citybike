@@ -1,14 +1,13 @@
-import React from "react";
+import * as React from "react";
+import { Link } from "react-router-dom";
 import Landing from "./components/Landing/Landing";
 import Navbar from "./components/Navbar/Navbar";
+import MainRoutes from "./navigation/MainRoutes";
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
-    <div className="App">
+    <div>
       <Navbar />
-      <Landing />
     </div>
   );
 };
-
-export default App;
