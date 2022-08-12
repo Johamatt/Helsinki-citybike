@@ -1,11 +1,13 @@
-export interface ResponseData {
-  rows: Station[] | Trip[];
+export interface ResponseData<T> {
+  rows: T[];
   count: number;
 }
 
 export interface Station {
+  rows: Station[];
   FID: number;
   id: number;
+  osoite: string;
   nimi: string;
   namn: string;
   name: string;

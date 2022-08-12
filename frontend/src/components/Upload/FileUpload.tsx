@@ -4,7 +4,7 @@ import { postData } from "../../axios/postData";
 import "./FileUpload.css";
 
 interface Props {
-  modelType: string;
+  modelType: "stations" | "trips";
 }
 
 export const TripUpload: React.FC<Props> = ({ modelType }) => {
@@ -16,6 +16,7 @@ export const TripUpload: React.FC<Props> = ({ modelType }) => {
   >();
 
   const inputRef = useRef<HTMLInputElement>(null);
+
   const handleFileChange = function (e: React.ChangeEvent<HTMLInputElement>) {
     const fileList = e.target.files;
     if (!fileList) return;
