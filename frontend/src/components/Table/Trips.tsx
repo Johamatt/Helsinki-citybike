@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getdataStations } from "../../axios/getData";
+import { getdataTrips } from "../../axios/getData";
 
 import {
   AiOutlineArrowUp,
@@ -7,17 +7,17 @@ import {
   AiOutlineArrowRight,
 } from "react-icons/ai";
 
-import { Station } from "../../types/responseTypes";
+import { Trip } from "../../types/responseTypes";
 
-export const Stations: React.FC = () => {
-  const [data, setData] = useState<Station[] | undefined>();
+export const Trips: React.FC = () => {
+  const [data, setData] = useState<Trip[] | undefined>();
   const [currentPage, setCurrentPage] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   const [inputValue, setInputValue] = useState<string>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getdataStations(currentPage);
+      const res = await getdataTrips(currentPage);
       setData(res);
     };
     fetchData();
@@ -51,22 +51,19 @@ export const Stations: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((row: Station, index) => {
+              {data.map((row: Trip, index) => {
+                console.log(Object.values(row));
                 return (
                   <tr key={index}>
-                    <td>{row.FID}</td>
                     <td>{row.id}</td>
-                    <td>{row.nimi}</td>
-                    <td>{row.namn}</td>
-                    <td>{row.name}</td>
-                    <td>{row.osoite}</td>
-                    <td>{row.adress}</td>
-                    <td>{row.kaupunki}</td>
-                    <td>{row.stad}</td>
-                    <td>{row.operaattor}</td>
-                    <td>{row.kapasiteet}</td>
-                    <td>{row.x}</td>
-                    <td>{row.y}</td>
+                    <td>{row.departureTime.toString()}</td>
+                    <td>{row.returnTime.toString()}</td>
+                    <td>{row.departureStationId}</td>
+                    <td>{row.departureStationName}</td>
+                    <td>{row.returnStationId}</td>
+                    <td>{row.returnStationName}</td>
+                    <td>{row.distanceInMeters}</td>
+                    <td>{row.durationInSeconds}</td>
                   </tr>
                 );
               })}
@@ -76,14 +73,20 @@ export const Stations: React.FC = () => {
             <ul className="pagination">
               <li
                 className="page-link"
-                onClick={() => setCurrentPage(currentPage - 1)}
+                onClick={() => {
+                  if (currentPage !== 0) {
+                    setCurrentPage(currentPage - 1);
+                  }
+                }}
               >
                 <AiOutlineArrowLeft />
               </li>
               <li className="page-link">{currentPage}</li>
               <li
                 className="page-link"
-                onClick={() => setCurrentPage(currentPage + 1)}
+                onClick={() => {
+                  setCurrentPage(currentPage + 1);
+                }}
               >
                 <AiOutlineArrowRight />
               </li>
