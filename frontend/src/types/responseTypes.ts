@@ -4,6 +4,7 @@ export interface ResponseData<T> {
 }
 
 export interface Station {
+  data: any;
   rows: Station[];
   FID: number;
   id: number;
@@ -18,6 +19,8 @@ export interface Station {
   kapasiteet: number;
   x: number;
   y: number;
+  totalTripsStarted?: Array<{ count: number }>;
+  totalTripsEnded?: Array<{ count: number }>;
 }
 
 export interface Trip {

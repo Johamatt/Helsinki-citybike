@@ -11,7 +11,6 @@ export const Landing: React.FC<{}> = () => {
           <TripUpload modelType="stations" />
         </div>
       </div> */}
-      <Stations />
       <Trips />
     </div>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { getdataStations } from "../../axios/getData";
+import { getStationsPagination } from "../../axios/getData";
+import "./table.css";
 
 import {
   AiOutlineArrowUp,
@@ -9,16 +10,19 @@ import {
 
 import { Station } from "../../types/responseTypes";
 import { FileUpload } from "../Upload/FileUpload";
+import StationModal from "../Modals/StationModal";
+import { Link } from "react-router-dom";
 
 export const Stations: React.FC = () => {
   const [data, setData] = useState<Station[] | undefined>();
   const [currentPage, setCurrentPage] = useState(0);
-  const formRef = useRef<HTMLFormElement>(null);
-  const [inputValue, setInputValue] = useState<string>();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const [modalID, setModalID] = useState<number | undefined>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getdataStations(currentPage);
+      const res = await getStationsPagination(currentPage);
       setData(res);
     };
     fetchData();
@@ -28,23 +32,26 @@ export const Stations: React.FC = () => {
     return <p>loading table</p>;
   }
 
-  const onChange = function (e: React.ChangeEvent<HTMLInputElement>) {
-    setInputValue(e.target.value);
-  };
+  function showModal(ID: number) {
+    setModalID(ID);
+    setIsModalOpen(true);
+  }
 
   return (
     <div className="container">
       <div className="container">
         <FileUpload modelType="stations" />
       </div>
+
       {data !== undefined ? (
         <div>
+          <StationModal ID={modalID} isOpen={isModalOpen} />
           <table className="table">
             <thead>
               <tr>
-                {Object.keys(data[0]).map((row) => {
+                {Object.keys(data[0]).map((row, index) => {
                   return (
-                    <th>
+                    <th key={index}>
                       {row}
                       {/* <span>
                         <AiOutlineArrowUp />
@@ -57,7 +64,12 @@ export const Stations: React.FC = () => {
             <tbody>
               {data.map((row: Station, index) => {
                 return (
-                  <tr key={index}>
+                  <tr
+                    key={index}
+                    onClick={() => showModal(row.id)}
+                    className="cursor-pointer"
+                    role="button"
+                  >
                     <td>{row.FID}</td>
                     <td>{row.id}</td>
                     <td>{row.nimi}</td>

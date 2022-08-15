@@ -11,18 +11,20 @@ function Navbar() {
             <h1>
               Citybikes<span>.</span>
             </h1>
-            <a className="nav-item nav-link" href="#">
-              <Link to="/">Home</Link>
-            </a>
-            <a className="nav-item nav-link " href="#">
-              <Link to="/trips">Trips</Link>
-            </a>
-            <a className="nav-item nav-link" href="#">
-              <Link to="/stations">Stations</Link>
-            </a>
+
+            <Link to="/" className="nav-item nav-link link-dark">
+              Home
+            </Link>
+
+            <Link to="/trips" className="nav-item nav-link link-dark">
+              Trips
+            </Link>
+
+            <Link to="/stations" className="nav-item nav-link link-dark">
+              Stations
+            </Link>
           </div>
           <hr />
-          <MainRoutes />
         </div>
       </nav>
     </div>

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { getdataTrips } from "../../axios/getData";
+import { getTripsPagination } from "../../axios/getData";
+import "./table.css";
 
 import {
   AiOutlineArrowUp,
@@ -18,7 +19,7 @@ export const Trips: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getdataTrips(currentPage);
+      const res = await getTripsPagination(currentPage);
       setData(res);
     };
     fetchData();
@@ -42,9 +43,9 @@ export const Trips: React.FC = () => {
           <table className="table">
             <thead>
               <tr>
-                {Object.keys(data[0]).map((row) => {
+                {Object.keys(data[0]).map((row, index) => {
                   return (
-                    <th>
+                    <th key={index}>
                       {row}
                       {/* <span>
                         <AiOutlineArrowUp />
@@ -56,7 +57,6 @@ export const Trips: React.FC = () => {
             </thead>
             <tbody>
               {data.map((row: Trip, index) => {
-                console.log(Object.values(row));
                 return (
                   <tr key={index}>
                     <td>{row.id}</td>
