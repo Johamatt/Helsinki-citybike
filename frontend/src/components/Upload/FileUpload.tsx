@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import React, { useRef, useState } from "react";
 import { postData } from "../../axios/postData";
+import { Report } from "../UploadReport/Report";
 import "./FileUpload.css";
 
 interface Props {
@@ -37,48 +38,50 @@ export const FileUpload: React.FC<Props> = ({ modelType }) => {
   };
 
   return (
-    <div className="d-flex flex-row align-items-center">
-      <h1>Upload {modelType} </h1>
-      <form className="upload">
-        <div>
-          <label className="file-upload">
-            <input
-              accept="text/csv"
-              ref={inputRef}
-              multiple={false}
-              type="file"
-              name="file"
-              id="file"
-              onChange={handleFileChange}
-            />
-            Choose File
-          </label>
-          {file ? (
-            <button className="btn" onClick={uploadFile}>
-              Send
-            </button>
-          ) : (
-            <div />
-          )}
-        </div>
-      </form>{" "}
-      {isFileUploaded ? (
-        <div>
-          <p>{file?.name} uploaded to database</p>
-        </div>
-      ) : (
-        <div />
-      )}
-      {loading ? (
-        <div>
-          <p>loading . . .</p>
-        </div>
-      ) : (
-        <div />
-      )}
+    <div>
+      <div className="d-flex flex-row align-items-center">
+        <h1>Upload {modelType} </h1>
+        <form className="upload">
+          <div>
+            <label className="file-upload">
+              <input
+                accept="text/csv"
+                ref={inputRef}
+                multiple={false}
+                type="file"
+                name="file"
+                id="file"
+                onChange={handleFileChange}
+              />
+              Choose File
+            </label>
+            {file ? (
+              <button className="btn" onClick={uploadFile}>
+                Send
+              </button>
+            ) : (
+              <div />
+            )}
+          </div>
+        </form>{" "}
+        {isFileUploaded ? (
+          <div>
+            <p>{file?.name} uploaded to database</p>
+          </div>
+        ) : (
+          <div />
+        )}
+        {loading ? (
+          <div>
+            <p>loading . . .</p>
+          </div>
+        ) : (
+          <div />
+        )}
+      </div>
       {response !== undefined ? (
         <div>
-          <p>{response?.data.dataModel}</p>
+          <Report report={response.data} />
         </div>
       ) : (
         <div />

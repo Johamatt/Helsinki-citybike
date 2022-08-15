@@ -33,6 +33,11 @@ export interface Trip {
   returnStationName: string;
   distanceInMeters: number;
   durationInSeconds: number;
+}
 
-  //...
+export interface UploadReport {
+  dataModel: string;
+  failedImports: Array<any>;
+  filename: string;
+  totalNumberOfRows: number;
 }

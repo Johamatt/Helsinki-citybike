@@ -28,10 +28,18 @@ export const Map: React.FC<Props> = ({ data }) => {
 
       <div className="d-flex flex-column container-sm">
         <p className="p-2">
-          Total trips started: {data.totalTripsStarted?.[0].count}
+          Station name: <b>{data.data.name}</b>
+        </p>
+
+        <p className="p-2">
+          Station address: <b>{data.data.osoite}</b>
+        </p>
+
+        <p className="p-2">
+          Total trips started: <b>{data.totalTripsStarted?.[0].count}</b>
         </p>
         <p className="p-2">
-          Total trips ended: {data.totalTripsEnded?.[0].count}
+          Total trips ended: <b>{data.totalTripsEnded?.[0].count}</b>
         </p>
       </div>
     </div>

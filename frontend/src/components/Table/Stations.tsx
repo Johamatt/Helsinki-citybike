@@ -1,17 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getStationsPagination } from "../../axios/getData";
 import "./table.css";
 
-import {
-  AiOutlineArrowUp,
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-} from "react-icons/ai";
-
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { Station } from "../../types/responseTypes";
 import { FileUpload } from "../Upload/FileUpload";
 import StationModal from "../Modals/StationModal";
-import { Link } from "react-router-dom";
 
 export const Stations: React.FC = () => {
   const [data, setData] = useState<Station[] | undefined>();
