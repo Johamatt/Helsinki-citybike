@@ -52,31 +52,33 @@ export const FileUpload: React.FC<Props> = ({ modelType }) => {
   return (
     <div>
       {!loading ? (
-        <div className="d-flex flex-row align-items-center">
-          <h1>Upload {modelType} </h1>
-          <form className="upload">
-            <div>
-              <label className="upload-btn">
-                <input
-                  accept="text/csv"
-                  ref={inputRef}
-                  multiple={false}
-                  type="file"
-                  name="file"
-                  id="file"
-                  onChange={handleFileChange}
-                />
-                Choose File
-              </label>
-              {file && !loading ? (
-                <button className="send-btn" onClick={uploadFile}>
-                  Send
-                </button>
-              ) : (
-                <div />
-              )}
-            </div>
-          </form>{" "}
+        <div className="container-sm">
+          <div className="d-flex flex-row align-items-center">
+            <h1>Upload {modelType} </h1>
+            <form className="upload">
+              <div>
+                <label className="upload-btn">
+                  <input
+                    accept="text/csv"
+                    ref={inputRef}
+                    multiple={false}
+                    type="file"
+                    name="file"
+                    id="file"
+                    onChange={handleFileChange}
+                  />
+                  Choose File
+                </label>
+                {file && !loading ? (
+                  <button className="send-btn" onClick={uploadFile}>
+                    Send
+                  </button>
+                ) : (
+                  <div />
+                )}
+              </div>
+            </form>{" "}
+          </div>
         </div>
       ) : (
         <div className="d-flex flex-row">

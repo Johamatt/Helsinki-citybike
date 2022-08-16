@@ -1,4 +1,4 @@
-tr:hover {
+tr.line-highlight:hover {
     background: #999;
     cursor: pointer;
 }

@@ -48,6 +48,7 @@ export const Trips: React.FC = () => {
             <tbody>
               {data.map((row: Trip, index) => {
                 return (
+                  // className="line-highlight">
                   <tr key={index}>
                     <td>{row.id}</td>
                     <td>{row.departureTime.toString()}</td>
@@ -88,8 +89,8 @@ export const Trips: React.FC = () => {
           </nav>
         </div>
       ) : (
-        <div>
-          <p>no data found</p>
+        <div className="w-100% p-3 h-25  text-center">
+          <h2>No Data found</h2>
         </div>
       )}
     </div>

@@ -41,3 +41,20 @@ export const getSingleStation = async (
   }
   return data?.data;
 };
+
+export const getStationsFilterPagination = async (
+  page: number,
+  row: string,
+  order: "ASC" | "DESC"
+): Promise<any | undefined> => {
+  let data;
+  // localhost:4000/stations/1
+  try {
+    data = await axios.get(
+      `http://localhost:4000/stations/paginationfiltering/?page=${page}&size=10&column=${row}&order=ASC`
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  return data?.data.data.rows;
+};

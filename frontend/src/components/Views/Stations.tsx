@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import { getStationsPagination } from "../../axios/getData";
+import {
+  getStationsFilterPagination,
+  getStationsPagination,
+} from "../../axios/getData";
 import "./table.css";
 
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import {
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineArrowUp,
+} from "react-icons/ai";
 import { Station } from "../../types/responseTypes";
 import { FileUpload } from "../Upload/FileUpload";
 import StationModal from "./Modals/StationSingleView";
@@ -11,16 +18,31 @@ export const Stations: React.FC = () => {
   const [data, setData] = useState<Station[] | undefined>();
   const [currentPage, setCurrentPage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [columnFilter, setColumnFilter] = useState<string>();
 
   const [modalID, setModalID] = useState<number | undefined>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getStationsPagination(currentPage);
+      let res;
+      if (columnFilter !== undefined) {
+        res = await getStationsFilterPagination(
+          currentPage,
+          columnFilter,
+          "ASC"
+        );
+      } else {
+        res = await getStationsPagination(currentPage);
+      }
       setData(res);
     };
+
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, columnFilter]);
+
+  console.log(columnFilter);
+
+  console.log(data);
 
   if (data === undefined) {
     return <p>loading table</p>;
@@ -29,6 +51,10 @@ export const Stations: React.FC = () => {
   function showModal(ID: number) {
     setModalID(ID);
     setIsModalOpen(true);
+  }
+
+  function toggleFilter(row: string) {
+    setColumnFilter(row);
   }
 
   return (
@@ -45,11 +71,16 @@ export const Stations: React.FC = () => {
               <tr>
                 {Object.keys(data[0]).map((row, index) => {
                   return (
-                    <th key={index}>
+                    <th key={index} className="text-center ">
+                      <span className="d-flex flex-column ">
+                        <AiOutlineArrowUp
+                          className="d-block mx-auto"
+                          onClick={() => {
+                            toggleFilter(row);
+                          }}
+                        />
+                      </span>
                       {row}
-                      {/* <span>
-                        <AiOutlineArrowUp />
-                      </span> */}
                     </th>
                   );
                 })}
@@ -61,8 +92,8 @@ export const Stations: React.FC = () => {
                   <tr
                     key={index}
                     onClick={() => showModal(row.id)}
-                    className="cursor-pointer"
                     role="button"
+                    className="line-highlight"
                   >
                     <td>{row.FID}</td>
                     <td>{row.id}</td>
@@ -86,7 +117,11 @@ export const Stations: React.FC = () => {
             <ul className="pagination">
               <li
                 className="page-link"
-                onClick={() => setCurrentPage(currentPage - 1)}
+                onClick={() => {
+                  if (currentPage !== 0) {
+                    setCurrentPage(currentPage - 1);
+                  }
+                }}
               >
                 <AiOutlineArrowLeft />
               </li>
@@ -101,8 +136,8 @@ export const Stations: React.FC = () => {
           </nav>
         </div>
       ) : (
-        <div>
-          <p>no data found</p>
+        <div className="w-100% p-3 h-25  text-center">
+          <h2>No Data found</h2>
         </div>
       )}
     </div>
