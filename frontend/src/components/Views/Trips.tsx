@@ -1,23 +1,54 @@
 import { useEffect, useState } from "react";
-import { getTripsPagination } from "../../axios/getData";
+import {
+  getStationsFilterPagination,
+  getTripsFilterPagination,
+  getTripsPagination,
+} from "../../axios/getData";
 import "./table.css";
 
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import {
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineArrowUp,
+} from "react-icons/ai";
 
 import { Trip } from "../../types/responseTypes";
 import { FileUpload } from "../Upload/FileUpload";
+
+interface columnFilter {
+  col: string;
+  order: "ASC" | "DESC";
+}
 
 export const Trips: React.FC = () => {
   const [data, setData] = useState<Trip[] | undefined>([]);
   const [currentPage, setCurrentPage] = useState(0);
 
+  const [columnFilter, setColumnFilter] = useState<columnFilter>({
+    col: "id",
+    order: "ASC",
+  });
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getTripsPagination(currentPage);
+      const res = await getTripsFilterPagination(
+        currentPage,
+        columnFilter.col,
+        columnFilter.order
+      );
       setData(res);
     };
+
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, columnFilter]);
+
+  function toggleFilter(row: string) {
+    if (columnFilter.col === row && columnFilter.order === "ASC") {
+      setColumnFilter({ col: row, order: "DESC" });
+    } else {
+      setColumnFilter({ col: row, order: "ASC" });
+    }
+  }
 
   if (data === undefined) {
     return <p>loading table</p>;
@@ -35,11 +66,16 @@ export const Trips: React.FC = () => {
               <tr>
                 {Object.keys(data[0]).map((row, index) => {
                   return (
-                    <th key={index}>
+                    <th key={index} className="text-center ">
+                      <span className="d-flex flex-column ">
+                        <AiOutlineArrowUp
+                          className="d-block mx-auto"
+                          onClick={() => {
+                            toggleFilter(row);
+                          }}
+                        />
+                      </span>
                       {row}
-                      {/* <span>
-                        <AiOutlineArrowUp />
-                      </span> */}
                     </th>
                   );
                 })}
