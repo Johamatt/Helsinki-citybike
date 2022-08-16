@@ -1,12 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getTripsPagination } from "../../axios/getData";
 import "./table.css";
 
-import {
-  AiOutlineArrowUp,
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-} from "react-icons/ai";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import { Trip } from "../../types/responseTypes";
 import { FileUpload } from "../Upload/FileUpload";
@@ -14,8 +10,6 @@ import { FileUpload } from "../Upload/FileUpload";
 export const Trips: React.FC = () => {
   const [data, setData] = useState<Trip[] | undefined>();
   const [currentPage, setCurrentPage] = useState(0);
-  const formRef = useRef<HTMLFormElement>(null);
-  const [inputValue, setInputValue] = useState<string>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,10 +22,6 @@ export const Trips: React.FC = () => {
   if (data === undefined) {
     return <p>loading table</p>;
   }
-
-  const onChange = function (e: React.ChangeEvent<HTMLInputElement>) {
-    setInputValue(e.target.value);
-  };
 
   return (
     <div className="container">

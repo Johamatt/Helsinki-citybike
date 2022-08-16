@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 import lottie from "lottie-web";
 import React, { useEffect, useRef, useState } from "react";
-import Lottie from "react-lottie";
 import { postData } from "../../axios/postData";
 import "./FileUpload.css";
 import { UploadReport } from "./UploadReport";
@@ -21,7 +20,6 @@ export const FileUpload: React.FC<Props> = ({ modelType }) => {
 
   useEffect(() => {
     if (element.current)
-      // add this
       lottie.loadAnimation({
         animationData: require("../../util/animations/loading.json"),
         renderer: "svg",
@@ -30,8 +28,6 @@ export const FileUpload: React.FC<Props> = ({ modelType }) => {
         loop: true,
       });
   });
-
-  const loadingAnimation = () => {};
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -84,7 +80,9 @@ export const FileUpload: React.FC<Props> = ({ modelType }) => {
         </div>
       ) : (
         <div className="d-flex flex-row">
-          <h2 className="d-flex align-items-end">Uploading file</h2>
+          <h2 className="d-flex align-items-end">
+            Uploading file: {file?.name}
+          </h2>
           <div className="d-flex align-items-end" ref={element} />
         </div>
       )}
