@@ -8,7 +8,7 @@ import { Trip } from "../../types/responseTypes";
 import { FileUpload } from "../Upload/FileUpload";
 
 export const Trips: React.FC = () => {
-  const [data, setData] = useState<Trip[] | undefined>();
+  const [data, setData] = useState<Trip[] | undefined>([]);
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const Trips: React.FC = () => {
       <div className="container">
         <FileUpload modelType="trips" />
       </div>
-      {data !== undefined ? (
+      {data.length !== 0 ? (
         <div>
           <table className="table">
             <thead>

@@ -37,7 +37,7 @@ export const Stations: React.FC = () => {
         <FileUpload modelType="stations" />
       </div>
 
-      {data !== undefined ? (
+      {data.length !== 0 ? (
         <div>
           <StationModal ID={modalID} isOpen={isModalOpen} />
           <table className="table">
