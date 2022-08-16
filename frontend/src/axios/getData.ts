@@ -1,20 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { ResponseData, Station, Trip } from "../types/responseTypes";
 
-export const getStationsPagination = async (
-  page: number
-): Promise<Station[] | undefined> => {
-  let data;
-  try {
-    data = await axios.get(
-      `http://localhost:4000/stations/pagination/?page=${page}&size=10`
-    );
-  } catch (err) {
-    console.log(err);
-  }
-  return data?.data.data.rows;
-};
-
 export const getTripsPagination = async (
   page: number
 ): Promise<Trip[] | undefined> => {
@@ -33,7 +19,6 @@ export const getSingleStation = async (
   id: number | undefined
 ): Promise<any | undefined> => {
   let data;
-  // localhost:4000/stations/1
   try {
     data = await axios.get(`http://localhost:4000/stations/${id}`);
   } catch (err) {
@@ -48,10 +33,25 @@ export const getStationsFilterPagination = async (
   order: "ASC" | "DESC"
 ): Promise<any | undefined> => {
   let data;
-  // localhost:4000/stations/1
   try {
     data = await axios.get(
-      `http://localhost:4000/stations/paginationfiltering/?page=${page}&size=10&column=${row}&order=ASC`
+      `http://localhost:4000/stations/paginationfiltering/?page=${page}&size=10&column=${row}&order=${order}`
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  return data?.data.data.rows;
+};
+
+export const getTripsFilterPagination = async (
+  page: number,
+  row: string,
+  order: "ASC" | "DESC"
+): Promise<any | undefined> => {
+  let data;
+  try {
+    data = await axios.get(
+      `http://localhost:4000/trips/paginationfiltering/?page=${page}&size=10&column=${row}&order=${order}`
     );
   } catch (err) {
     console.log(err);

@@ -1,9 +1,13 @@
+import { LatLngExpression } from "leaflet";
+import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Station } from "../../types/responseTypes";
 
 interface Props {
   data: Station;
 }
+
+//todo change map position
 
 export const Map: React.FC<Props> = ({ data }) => {
   return (

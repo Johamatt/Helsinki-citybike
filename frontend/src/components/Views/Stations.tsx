@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  getStationsFilterPagination,
-  getStationsPagination,
-} from "../../axios/getData";
+import { getStationsFilterPagination } from "../../axios/getData";
 import "./table.css";
 
 import {
@@ -14,35 +11,34 @@ import { Station } from "../../types/responseTypes";
 import { FileUpload } from "../Upload/FileUpload";
 import StationModal from "./Modals/StationSingleView";
 
+interface columnFilter {
+  col: string;
+  order: "ASC" | "DESC";
+}
+
 export const Stations: React.FC = () => {
   const [data, setData] = useState<Station[] | undefined>();
   const [currentPage, setCurrentPage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [columnFilter, setColumnFilter] = useState<string>();
+  const [columnFilter, setColumnFilter] = useState<columnFilter>({
+    col: "FID",
+    order: "ASC",
+  });
 
   const [modalID, setModalID] = useState<number | undefined>();
 
   useEffect(() => {
     const fetchData = async () => {
-      let res;
-      if (columnFilter !== undefined) {
-        res = await getStationsFilterPagination(
-          currentPage,
-          columnFilter,
-          "ASC"
-        );
-      } else {
-        res = await getStationsPagination(currentPage);
-      }
+      const res = await getStationsFilterPagination(
+        currentPage,
+        columnFilter.col,
+        columnFilter.order
+      );
       setData(res);
     };
 
     fetchData();
   }, [currentPage, columnFilter]);
-
-  console.log(columnFilter);
-
-  console.log(data);
 
   if (data === undefined) {
     return <p>loading table</p>;
@@ -54,7 +50,11 @@ export const Stations: React.FC = () => {
   }
 
   function toggleFilter(row: string) {
-    setColumnFilter(row);
+    if (columnFilter.col === row && columnFilter.order === "ASC") {
+      setColumnFilter({ col: row, order: "DESC" });
+    } else {
+      setColumnFilter({ col: row, order: "ASC" });
+    }
   }
 
   return (
