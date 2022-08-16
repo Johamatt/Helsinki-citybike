@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
-import MainRoutes from "../../navigation/MainRoutes";
-import "./Navbar.css";
 
-function Navbar() {
+export const Navbar: React.FC = () => {
   return (
     <div className="container">
       <nav className="navbar navbar-expand-lg navbar-light">
@@ -29,6 +27,6 @@ function Navbar() {
       </nav>
     </div>
   );
-}
+};
 
 export default Navbar;

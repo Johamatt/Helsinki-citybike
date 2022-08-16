@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { UploadReport } from "../../types/responseTypes";
-import "./modal.css";
+import { Report } from "../../types/responseTypes";
+import "./uploadReport.css";
 
 interface Props {
-  report: UploadReport; //UploadReport;
+  report: Report;
 }
 
-export const Report: React.FC<Props> = ({ report }) => {
+export const UploadReport: React.FC<Props> = ({ report }) => {
   const [modal, setModal] = useState(true);
 
   console.log(report);
@@ -18,21 +18,13 @@ export const Report: React.FC<Props> = ({ report }) => {
     return <div />;
   }
 
-  function renderRows(): React.ReactNode {
-    {
-      report.failedImports.map((row) => console.log(row.row));
-    }
-    return <div></div>;
-  }
-
   return (
     <div>
       <div className="overlay">
         <div className="modal-content">
-          <h2>File: {report.filename}</h2>
-
+          <h1>Upload completed</h1>
+          <h4>File: {report.filename}</h4>
           <p>Total rows uploaded: {report.totalNumberOfRows}</p>
-
           <button className="close-modal" onClick={toggleModal}>
             Close
           </button>

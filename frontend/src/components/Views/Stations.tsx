@@ -5,7 +5,7 @@ import "./table.css";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { Station } from "../../types/responseTypes";
 import { FileUpload } from "../Upload/FileUpload";
-import StationModal from "../Modals/StationModal";
+import StationModal from "./Modals/StationSingleView";
 
 export const Stations: React.FC = () => {
   const [data, setData] = useState<Station[] | undefined>();

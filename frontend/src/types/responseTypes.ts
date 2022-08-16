@@ -35,7 +35,7 @@ export interface Trip {
   durationInSeconds: number;
 }
 
-export interface UploadReport {
+export interface Report {
   dataModel: string;
   failedImports: Array<any>;
   filename: string;

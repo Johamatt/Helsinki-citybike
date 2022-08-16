@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getSingleStation } from "../../axios/getData";
-import { Station } from "../../types/responseTypes";
-import { Map } from "./Map";
+import { getSingleStation } from "../../../axios/getData";
+import { Station } from "../../../types/responseTypes";
+import { Map } from "../../Map/Map";
+
 interface Props {
   isOpen: boolean;
   ID: number | undefined;

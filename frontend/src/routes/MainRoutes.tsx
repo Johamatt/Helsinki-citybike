@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import StationModal from "../components/Modals/StationModal";
-import { Stations } from "../components/Table/Stations";
-import { Trips } from "../components/Table/Trips";
+import StationModal from "../components/Views/Modals/StationSingleView";
+import { Stations } from "../components/Views/Stations";
+import { Trips } from "../components/Views/Trips";
 
 const MainRoutes = () => {
   return (
